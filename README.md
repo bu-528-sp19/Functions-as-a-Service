@@ -2,12 +2,11 @@
 
 ---
 Mentors:
--Tommy Unger
+- Tommy Unger
 -
 
 ---
--Team Members:
--Zhuyu Li
--Yuhang Miao
--Yuxuan Su
-
+- Team Members:
+- Zhuyu Li
+- Yuhang Miao
+- Yuxuan Su
