@@ -6,7 +6,7 @@ Mentors:
 -
 
 ---
-- Team Members:
+Team Members:
 - Zhuyu Li
 - Yuhang Miao
 - Yuxuan Su
