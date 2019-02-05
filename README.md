@@ -3,23 +3,23 @@
 ## 1.   Vision and Goals Of The Project:
 
 The goals of our project can be summarized as two parts: <br>
-	* Firstly, we want to build a mobile application whose scenario can leverage the strength of FaaS. For this app, the computing requirement for OpenWhisk is dynamic and may have high variance for a very short time. <br>
-	* Secondly, we also want to see the performance of FaaS when it exercises with dynamic amounts of load. We may also go deep into the OpenWhisk’s source code to evaluate the benchmark of the system.<br>
+* Firstly, we want to build a mobile application whose scenario can leverage the strength of FaaS. For this app, the computing requirement for OpenWhisk is dynamic and may have high variance for a very short time. <br>
+* Secondly, we also want to see the performance of FaaS when it exercises with dynamic amounts of load. We may also go deep into the OpenWhisk’s source code to evaluate the benchmark of the system.<br>
 Our final product would be an application that assists taxi taking process, it receives real time data of drivers and passengers. Considering some regular events such as rush hour, and some sudden events such as a heavy rain or the end of an activity for a specific area, all those conditions will lead to a significant variance of the taxi requirement. Therefore, the scenario is obviously suitable for FaaS. <br>
 
 The functions covered by application can be divided into two layers: <br>
-	* The application will directly read the location data of passengers and drivers and provide users a hot spot map to directly show the distribution. <br>
-	* The application will recommend the location that is most likely to make a deal for both passengers and drivers, that would be a trade-off between distance and probability. <br>
+* The application will directly read the location data of passengers and drivers and provide users a hot spot map to directly show the distribution. <br>
+* The application will recommend the location that is most likely to make a deal for both passengers and drivers, that would be a trade-off between distance and probability. <br>
 
 ** **
 ## 2. Users/Personas Of The Project:
 
 The final application will be used by either passengers or drivers. The running system, especially the computational part which using FaaS service, would be further evaluated by researcher. <br>
 Application End User: <br>
-	* Passengers: Passengers can see a real time hot spot map that shows the distribution of drivers and other passengers. If it is not likely to hail a taxi for their current location, the application will suggest them a better location. <br>
-	* Drivers: Most functions are same with the passengers’ side, but considering higher movement flexibility comparing with passengers, the suggesting algorithm would be different for drivers. <br>
+* Passengers: Passengers can see a real time hot spot map that shows the distribution of drivers and other passengers. If it is not likely to hail a taxi for their current location, the application will suggest them a better location. <br>
+* Drivers: Most functions are same with the passengers’ side, but considering higher movement flexibility comparing with passengers, the suggesting algorithm would be different for drivers. <br><br>
 System Researcher: <br>
-	* We will start from using historical knowledge, which would give us high freedom to simulate some extreme conditions that maximize the performance of FaaS when testing the application, the system researchers can use it to further evaluate the characteristics of FaaS platform. <br>    
+* We will start from using historical knowledge, which would give us high freedom to simulate some extreme conditions that maximize the performance of FaaS when testing the application, the system researchers can use it to further evaluate the characteristics of FaaS platform. <br>    
 
 ** **
 
