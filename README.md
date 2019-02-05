@@ -27,7 +27,7 @@ System Researcher: <br>
 
 ## 3.   Scope and Features Of The Project:
 
-The project aims to implement FaaS for taxi data analysis, which includes taxi route real time capture, taxi routes density analysis, passenger population flow map, and taxi driver route recommendation upon emergency or sudden events. In summary, the FaaS would serve as a tool to give thorough real time analysis on taxi running status, and to give special recommendations during emergency or abrupt events. <br><br>
+The project aims to implement FaaS for taxi data analysis, which includes taxi route real time capture, taxi routes density analysis, passenger population flow map, and taxi driver route recommendation upon emergency or sudden events. In summary, the FaaS would serve as a tool to give thorough real time analysis on taxi running status, and to give special recommendations during emergency or sudden events. <br><br>
 
 <div align="center">
 <img src="./images/stages.png" width="80%" height="80%">
@@ -38,6 +38,7 @@ The project contains 3 stages: <br>
 * 2nd Stage: In this stage, the FaaS would deal with real time data. Each taxi’s real time information will be collected and analyzed by the service. In this stage high throughput real time data would be monitored and analyzed, taking the advantage of cloud platform. <br>
 * 3rd Stage: To fully utilize the characteristics of FaaS, huge data size changes in the data stream will be considered. In this stage, sudden changes in the taxi-passenger system is considered. Two example features would be implemented. 1, When there is a sudden event happening at a certain spot, i.e a concert or game. During this time all the passengers would be traveling from one place to another specific place. 2, When there is a huge rain, a huge amount of passengers would emerge asking for taxis. During these events, a sudden change in the data stream would occur, and the FaaS would deal with these circumstances: make recommendations locations to drivers, and even allocate different drivers to certain areas to meet the demand.<br> 
 
+Our overall goal is to set up a FaaS for elastic volume data with data flow information. The taxi-passenger system serves as a good example of monitoring the trace of the movement of single data point. Moreover, in the 3rd stage, sudden events would bring elastic demand for the system, which utilize our FaaS system, and also lead to a meaningful real world case problem.
 
 ** **
 
@@ -76,10 +77,10 @@ Helm is a tool for managing Kubernetes charts, while charts are packages of pre-
 ## 5. Acceptance criteria
 
 This FaaS application could:  
-1. Store and present real-time taxi trips data on websites or mobile application.  
+1. Store and present real-time taxi trip data on websites or mobile application.  
 2. Show how many trips passed through georect defined by two latitude/longitude points.  
 3. Show how many trips were occurring at a given point in time.  
-4. Show how many trips started or stopped within a georect, and the total sum of their fares.  
+4. Show how many trips started or stopped within a georect, and the sum total of their fares.  
 5. Pair the customers and drivers for a trip.  
 
 
