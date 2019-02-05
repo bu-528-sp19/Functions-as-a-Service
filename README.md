@@ -76,10 +76,10 @@ Helm is a tool for managing Kubernetes charts, while charts are packages of pre-
 ## 5. Acceptance criteria
 
 This FaaS application could:  
-1. Store and present real-time taxi trip data on websites or mobile application.  
+1. Store and present real-time taxi trips data on websites or mobile application.  
 2. Show how many trips passed through georect defined by two latitude/longitude points.  
 3. Show how many trips were occurring at a given point in time.  
-4. Show how many trips started or stopped within a georect, and the sum total of their fares.  
+4. Show how many trips started or stopped within a georect, and the total sum of their fares.  
 5. Pair the customers and drivers for a trip.  
 
 
