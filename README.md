@@ -33,16 +33,33 @@ The Scope places a boundary around the solution by detailing the range of featur
 
 ## 4. Solution Concept
 
-This section provides a high-level outline of the solution.
+In real world, incoming requests from taxis will change rapidly. The server needs to be elastic so it can take quick responses to those changes, which means the server should have the ability to scale up in a short time. FaaS is a suitable solution for this situation. Rather than in system level or application level, the service will be scalable in the function level, which costs less and is much easier to start up and destroy. There are some mature FaaS platform now, like AWS Lambda, Azure Functions, Google Cloud Function and IBM OpenWhisk. Here we choose to use IBM OpenWhisk platform.
 
-Global Architectural Structure Of the Project:
+<div align="center">
+<img src="./images/FaaS_trigger_mechanism.jpg" width="80%" height="80%">
+</div>
 
-This section provides a high-level architecture or a conceptual diagram showing the scope of the solution. If wireframes or visuals have already been done, this section could also be used to show how the intended solution will look. This section also provides a walkthrough explanation of the architectural structure.
+Apache OpenWhisk (Incubating) is an open source, distributed Serverless platform that executes functions (fx) in response to events at any scale. OpenWhisk manages the infrastructure, servers and scaling using Docker containers so you can focus on building amazing and efficient applications. 
 
+OpenWhisk has integrated several components like Nginx, Kafka, controller and etc to help us coordinate the function call and assign it to any available worker (e.g. Containers). Most of our app will be taken care by OpenWhisk platform.
 
-Design Implications and Discussion:
+<div align="center">
+<img src="./images/OepnWhisk_structure.jpg" width="80%" height="80%">
+</div>
 
-This section discusses the implications and reasons of the design decisions made during the global architecture design.
+Based on OpenWhisk platform, our application will take requests from different clients and take different actions pointing to every requests. Those data will be firstly stored into the database to update the instant location of every taxi, and then sent to the cloud to be stored for data analyse. We will also design a backend system to read location data from database and send these informations to our backend system and users.
+
+<div align="center">
+<img src="./images/System_architecture.png" width="80%" height="80%">
+</div>
+
+Kubernetes is a well-known container orchestration tool, which can be used to deploy container-native applications. Here we’ll deploy OpenWhisk over Kubernetes, which can leverage the capabilities provided by Kubernetes to better control and manage OpenWhisk containers, which can result in a stable OpenWhisk runtime. 
+
+Helm is a tool for managing Kubernetes charts, while charts are packages of pre-configured Kubernetes resources. By using Helm,we can write charts, which are in template format, to define a set of Kubernetes resources (each resource stands for a component of your application), and use Helm to deploy the charts over a Kubernetes cluster.
+
+<div align="center">
+<img src="./images/kubernetes_OpenWhisk_structure.png" width="80%" height="80%">
+</div>
 
  ** **
 
