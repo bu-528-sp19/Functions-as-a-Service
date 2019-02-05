@@ -27,7 +27,12 @@ System Researcher: <br>
 
 ## 3.   Scope and Features Of The Project:
 
-The project aims to implement FaaS for taxi data analysis, which includes taxi route real time capture, taxi routes density analysis, passenger population flow map, and taxi driver route recommendation upon emergency or sudden events. In summary, the FaaS would serve as a tool to give thorough real time analysis on taxi running status, and to give special recommendations during emergency or abrupt events. <br>
+The project aims to implement FaaS for taxi data analysis, which includes taxi route real time capture, taxi routes density analysis, passenger population flow map, and taxi driver route recommendation upon emergency or sudden events. In summary, the FaaS would serve as a tool to give thorough real time analysis on taxi running status, and to give special recommendations during emergency or abrupt events. <br><br>
+
+<div align="center">
+<img src="./images/stages.png" width="80%" height="80%">
+</div>
+
 The project contains 3 stages: <br>
 * 1st Stage: implement FaaS for taxi driver static data. In this stage, the FaaS would deal with historical chunk of taxi data. The data would include basic information including passenger pick up position, passenger drop off position position, pick up time, drop off time etc. Based on these data, a taxi flow heat map will be generated. Furthermore, the population flow of different time and location would also be shown. <br>
 * 2nd Stage: In this stage, the FaaS would deal with real time data. Each taxi’s real time information will be collected and analyzed by the service. In this stage high throughput real time data would be monitored and analyzed, taking the advantage of cloud platform. <br>
