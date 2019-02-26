@@ -62,6 +62,9 @@ if __name__ == '__main__':
         temp_id = 'D'
         temp_id += str(random.randint(0,9)) + str(random.randint(0,9))
         temp_id += random.choice('qwertyuiopasdfghjklzxcvbnm')
+        if temp_id in driver_list:
+            print(temp_id)
+            continue
         driver_list[temp_id] = [0,0]
 
 
