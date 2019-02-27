@@ -2,7 +2,7 @@ import redis
 import geohash
 import json
 
-HOST = "172.17.0.15"
+HOST = "127.0.0.1"
 
 def validate(info):
     errors = ""
@@ -110,7 +110,6 @@ def view_passengers(params):
         geocode = geohash.encode(float(info['latitude']), float(info['longitude']), 5)
 
         qualified_list = []
-        person_info = []
         try:
             # scan all member in the same geocode
             for member in geocode_db.smembers(geocode):
@@ -119,9 +118,8 @@ def view_passengers(params):
                     pid = member.decode('utf-8')
                     passenger = {"id": pid}
                     person_info = [x.decode('utf-8') for x in passenger_db.lrange(pid,0,1)]
-                    passenger["latitude"] = person_info[1]
-                    passenger["longitude"] = person_info[2]
-                    passenger["geocode"] = person_info[3]
+                    passenger["latitude"] = person_info[0]
+                    passenger["longitude"] = person_info[1]
                     qualified_list.append(passenger)
 
             statusCode = 200
