@@ -94,7 +94,7 @@ def update_location(params):
 
 def view_drivers(params):
     # db 0: passenger, db 1: driver, db 2: geohash
-    dirver_db = redis.Redis(host=HOST, port=6379, db=1)
+    driver_db = redis.Redis(host=HOST, port=6379, db=1)
     geocode_db = redis.Redis(host=HOST, port=6379, db=2)
 
     info = {
@@ -118,7 +118,7 @@ def view_drivers(params):
                 if member.decode('utf-8')[0] == 'D':
                     pid = member.decode('utf-8')
                     driver = {"id": pid}
-                    person_info = [x.decode('utf-8') for x in passenger_db.lrange(pid,0,1)]
+                    person_info = [x.decode('utf-8') for x in driver_db.lrange(pid,0,1)]
                     driver["latitude"] = person_info[0]
                     driver["longitude"] = person_info[1]
                     qualified_list.append(driver)
