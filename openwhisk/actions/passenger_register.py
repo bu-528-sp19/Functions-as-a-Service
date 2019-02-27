@@ -22,19 +22,6 @@ def validate(col, info):
         errors["name"] = "The length of name exceeds the limit"
         isValid = False
 
-    # Validate the car model    
-    if not info["model"]:
-        errors["model"] = "Car model is required"
-        isValid = False
-
-    # Validate the license plate
-    if not info["license_plate"]:
-        errors["license_plate"] = "License plate is required"
-        isValid = False
-    elif col.find({ "license_plate": info["license_plate"] }).count() > 0:
-        errors["license_plate"] = "License plate already exists"
-        isValid = False
-
     # Validate the phone number    
     if not info["phone_number"]:
         errors["phone_number"] = "Phone number is required"
@@ -48,29 +35,27 @@ def validate(col, info):
     return isValid, errors
 
 
-def main(args):
+def register_passenger(args):
     # Config mongodb
     client = pymongo.MongoClient(HOST)
-    db = client.driver
+    db = client.passenger
     col = db.info 
 
     # Receive all the information in the request
-    driver_info = {
+    passenger_info = {
         "name": args.get("name", ""),
-        "model": args.get("model", ""),
-        "license_plate": args.get("license_plate", ""),
-        "phone_number": args.get("phone_number", "")
+        "phone_number": args.get("phone_number", ""),
     }
 
     # Validate the input
-    isValid, errors = validate(col, driver_info)
+    isValid, errors = validate(col, passenger_info)
 
     if isValid:
-        driver_info["id"] = "D" + str(uuid.uuid4().hex)
+        passenger_info["id"] = "P" + str(uuid.uuid4().hex)
         try:
-            col.insert_one(driver_info)
+            col.insert_one(passenger_info)
             statusCode = 201
-            res = dumps(col.find_one(driver_info))
+            res = dumps(col.find_one(passenger_info))
         except Exception as e:
             statusCode = 500
             res = json.dumps({ "error": e })

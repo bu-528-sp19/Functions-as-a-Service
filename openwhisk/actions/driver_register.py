@@ -48,7 +48,7 @@ def validate(col, info):
     return isValid, errors
 
 
-def main(args):
+def register_driver(args):
     # Config mongodb
     client = pymongo.MongoClient(HOST)
     db = client.driver
