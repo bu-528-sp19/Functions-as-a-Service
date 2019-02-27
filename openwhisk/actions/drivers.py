@@ -36,6 +36,7 @@ def validate(info):
     return isValid, errors
 
 def update_location(params):
+    # db 0: passenger, db 1: driver, db 2: geohash
     driver_db = redis.Redis(host="172.17.0.15", port=6379, db=1)
     geocode_db = redis.Redis(host="172.17.0.15", port=6379, db=2)
 
@@ -70,16 +71,68 @@ def update_location(params):
             geocode_db.expire(geocode, 20)
             # make response
             statusCode = 200
-            res = json.dumps({ "update": "success" })
+            res = json.dumps({ "result": "success" })
         except (redis.exceptions.ConnectionError, redis.exceptions.TimeoutError):
             statusCode = 403
-            res = json.dumps({"update": "connection failed", "info": info})
-        except Expection as e:
+            res = json.dumps({"result": "connection failed"})
+        except Exception as e:
             statusCode = 403
-            res = json.dumps({"update": "something error", "info": info})
+            res = json.dumps({"result": "something error", "msg": str(e)})
     else:
         statusCode = 403
-        res = json.dumps({"update": errors})
+        res = json.dumps({"result": errors})
+        
+    return {
+        "headers": {
+            "Content-Type": "application/json",
+        },
+        "statusCode": statusCode,
+        "body": res 
+    }
+
+def view_passengers(params):
+    # db 0: passenger, db 1: driver, db 2: geohash
+    passenger_db = redis.Redis(host="127.0.0.1", port=6379, db=0)
+    geocode_db = redis.Redis(host="127.0.0.1", port=6379, db=2)
+
+    info = {
+        "id": params.get("driver_id", ""),
+        "latitude": params.get("latitude", ""),
+        "longitude": params.get("longitude", "")
+    }
+
+    isValid, errors = validate(info)
+
+    if isValid:
+        # convert the latitude and longitude to geocode
+        geocode = geohash.encode(float(info['latitude']), float(info['longitude']), 5)
+
+        qualified_list = []
+        person_info = []
+        try:
+            # scan all member in the same geocode
+            for member in geocode_db.smembers(geocode):
+                # check if it is a passenger
+                if member.decode('utf-8')[0] == 'P':
+                    pid = member.decode('utf-8')
+                    passenger = {"id": pid}
+                    person_info = [x.decode('utf-8') for x in passenger_db.lrange(pid,0,1)]
+                    passenger["latitude"] = person_info[1]
+                    passenger["longitude"] = person_info[2]
+                    passenger["geocode"] = person_info[3]
+                    qualified_list.append(passenger)
+
+            statusCode = 200
+            res = json.dumps({"result": "success", "passengers": qualified_list})
+        except (redis.exceptions.ConnectionError, redis.exceptions.TimeoutError):
+            statusCode = 403
+            res = json.dumps({"result": "connection failed"})
+        except Exception as e:
+            statusCode = 403
+            res = json.dumps({"result": "something error", "msg": str(e)})
+    else:
+        statusCode = 403
+        res = json.dumps({"result": errors})
         
     return {
         "headers": {
