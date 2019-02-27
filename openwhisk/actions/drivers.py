@@ -2,6 +2,8 @@ import redis
 import geohash
 import json
 
+HOST = "172.17.0.15"
+
 def validate(info):
     errors = ""
     isValid = True
@@ -37,8 +39,8 @@ def validate(info):
 
 def update_location(params):
     # db 0: passenger, db 1: driver, db 2: geohash
-    driver_db = redis.Redis(host="172.17.0.15", port=6379, db=1)
-    geocode_db = redis.Redis(host="172.17.0.15", port=6379, db=2)
+    driver_db = redis.Redis(host=HOST, port=6379, db=1)
+    geocode_db = redis.Redis(host=HOST, port=6379, db=2)
 
     info = {
         "id": params.get("driver_id", ""),
@@ -92,8 +94,8 @@ def update_location(params):
 
 def view_passengers(params):
     # db 0: passenger, db 1: driver, db 2: geohash
-    passenger_db = redis.Redis(host="127.0.0.1", port=6379, db=0)
-    geocode_db = redis.Redis(host="127.0.0.1", port=6379, db=2)
+    passenger_db = redis.Redis(host=HOST, port=6379, db=0)
+    geocode_db = redis.Redis(host=HOST, port=6379, db=2)
 
     info = {
         "id": params.get("driver_id", ""),
