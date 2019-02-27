@@ -79,4 +79,4 @@ def validate(info):
             errors.longitude = "Longitude is invalid"
             isValid = False
 
-    return [isValid, errors]
+    return isValid, errors
