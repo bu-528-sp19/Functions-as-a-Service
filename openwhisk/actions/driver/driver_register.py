@@ -8,7 +8,7 @@ import uuid
 # Mongodb host configuation
 HOST = "mongodb://172.17.0.4:27017/"
 client = pymongo.MongoClient(HOST)
-db = client.passenger
+db = client.driver
 col = db.info 
 
 
@@ -25,6 +25,19 @@ def validate(col, info):
         errors["name"] = "The length of name exceeds the limit"
         isValid = False
 
+    # Validate the car model    
+    if not info["model"]:
+        errors["model"] = "Car model is required"
+        isValid = False
+
+    # Validate the license plate
+    if not info["license_plate"]:
+        errors["license_plate"] = "License plate is required"
+        isValid = False
+    elif col.find({ "license_plate": info["license_plate"] }).count() > 0:
+        errors["license_plate"] = "License plate already exists"
+        isValid = False
+
     # Validate the phone number    
     if not info["phone_number"]:
         errors["phone_number"] = "Phone number is required"
@@ -38,23 +51,25 @@ def validate(col, info):
     return isValid, errors
 
 
-def register_passenger(args):
+def main(params):
 
     # Receive all the information in the request
-    passenger_info = {
-        "name": args.get("name", ""),
-        "phone_number": args.get("phone_number", ""),
+    driver_info = {
+        "name": params.get("name", ""),
+        "model": params.get("model", ""),
+        "license_plate": params.get("license_plate", ""),
+        "phone_number": params.get("phone_number", "")
     }
 
     # Validate the input
-    isValid, errors = validate(col, passenger_info)
+    isValid, errors = validate(col, driver_info)
 
     if isValid:
-        passenger_info["id"] = "P" + str(uuid.uuid4().hex)
+        driver_info["id"] = "D" + str(uuid.uuid4().hex)
         try:
-            col.insert_one(passenger_info)
+            col.insert_one(driver_info)
             statusCode = 201
-            res = dumps(col.find_one(passenger_info))
+            res = dumps(col.find_one(driver_info))
         except Exception as e:
             statusCode = 500
             res = json.dumps({ "error": e })

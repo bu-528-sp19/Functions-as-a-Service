@@ -38,12 +38,12 @@ def validate(col, info):
     return isValid, errors
 
 
-def register_passenger(args):
+def main(params):
 
     # Receive all the information in the request
     passenger_info = {
-        "name": args.get("name", ""),
-        "phone_number": args.get("phone_number", ""),
+        "name": params.get("name", ""),
+        "phone_number": params.get("phone_number", ""),
     }
 
     # Validate the input
