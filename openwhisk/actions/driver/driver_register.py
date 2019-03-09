@@ -7,9 +7,6 @@ import uuid
 
 # Mongodb host configuation
 HOST = "mongodb://172.17.0.4:27017/"
-client = pymongo.MongoClient(HOST)
-db = client.driver
-col = db.info 
 
 
 # Input Validation
@@ -51,14 +48,18 @@ def validate(col, info):
     return isValid, errors
 
 
-def main(params):
+def register_driver(args):
+    # Config mongodb
+    client = pymongo.MongoClient(HOST)
+    db = client.driver
+    col = db.info 
 
     # Receive all the information in the request
     driver_info = {
-        "name": params.get("name", ""),
-        "model": params.get("model", ""),
-        "license_plate": params.get("license_plate", ""),
-        "phone_number": params.get("phone_number", "")
+        "name": args.get("name", ""),
+        "model": args.get("model", ""),
+        "license_plate": args.get("license_plate", ""),
+        "phone_number": args.get("phone_number", "")
     }
 
     # Validate the input
