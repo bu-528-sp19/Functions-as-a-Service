@@ -82,3 +82,34 @@ Go to the file->import... of the postman and import the json file:
 
 ## using git to contribute codes
 
+There are two major braches(dev and master) we used for our development. We mainly develop all the features to dev branch. The master branch is a relatively stable branch. When we release a new version of our program for demo, we will merge all the changes from dev branch to the master branch. When developing, using feature branch is highly recommended. You can checkout a new branch from the dev branch, write some codes and merge them to the dev branch. So the network may looks like this:  
+<img src="../images/branches.png"> 
+
+For example, I need to implement the feature: Simulation Program Design:
+```
+# first switch to the dev branch
+git checkout dev
+
+# create and switch to a new branch: story73_simulationDesign
+# I recommend using the user story number from taiga to represent the feature, it's easier to trace
+git checkout -b story73_simulationDesign
+
+# After writing some code about this feature
+# you can use this to check what has been changed
+git status
+
+# and decide the changes to be saved
+git add <your file>
+git commit -m "<describe what you did>"
+
+# you can directly save the changes to the story73_simulationDesign branch
+git push -u origin story73_simulationDesign
+
+# Or, if you have finished this feature or you just want to update it to the dev branch
+# you can merge them to the dev branch
+git checkout dev
+git merge --no-ff -m "merge from story73_simulationDesign" story73_simulationDesign
+git push -u origin dev
+```
+
+Sometimes, when you use `git merge` you may find some files in the dev branch is confict to the files in your feature branch. This is because someone is editing the same file. You can work with the teamate to solve this problem. For more detail, you can visit this blog: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001375840202368c74be33fbd884e71b570f2cc3c0d1dcf000
