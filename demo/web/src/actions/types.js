@@ -1,0 +1,1 @@
+export const SET_CURRENT_POS = 'SET_CURRENT_POS';
