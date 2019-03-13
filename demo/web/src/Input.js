@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import InputGroup from './InputGroup';
 import { connect } from 'react-redux';
 import { setPosition, setDefaultPosition } from './actions/mapActions'
+import PropTypes from 'prop-types';
 
 class Input extends Component {
 
   state = {
     latitude: "",
     longtitude: "",
-    range: "",
     errors: {}
-  }
-
-  componentDidMount = () => {
-    this.props.setDefaultPosition();
   }
 
   onChangeHandler = (e) => {
@@ -28,7 +24,12 @@ class Input extends Component {
         lat: this.state.latitude,
         lng: this.state.longtitude
       },
-      zoom: 18
+      zoom: 18,
+      yourCoord: {
+        lat: this.state.latitude,
+        lng: this.state.longtitude
+      },
+      taxiCoord: [] 
     }
 
     this.props.setPosition(data);
@@ -64,14 +65,6 @@ class Input extends Component {
             prepend="Longtitude"
             onChange={ this.onChangeHandler }
           />
-          <InputGroup
-            name="range"
-            placeholder="5"
-            value={ this.state.range }
-            error={ errors.range }
-            prepend="Range(km)"
-            onChange={ this.onChangeHandler }
-          />
         </div>
         <div className="container px-5 mt-5">
           <div className="row">
@@ -86,6 +79,10 @@ class Input extends Component {
       </div>
     )
   }
+}
+
+Input.propTypes = {
+  map: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({

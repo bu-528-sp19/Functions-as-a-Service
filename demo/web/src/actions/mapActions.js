@@ -7,7 +7,9 @@ export const setDefaultPosition = () => dispatch => {
       lat: 42.3401,
       lng: 288.9089
     },
-    zoom: 14
+    zoom: 14,
+    yourCoord: {},
+    taxiCoord: []
   }
   dispatch({
     type: SET_CURRENT_POS,
@@ -17,6 +19,10 @@ export const setDefaultPosition = () => dispatch => {
 
 // set the position
 export const setPosition = (data) => dispatch => {
+  
+  // query to the backend for the positions of taxi drivers around
+
+
   dispatch({
     type: SET_CURRENT_POS,
     payload: data

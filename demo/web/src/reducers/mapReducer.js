@@ -2,7 +2,9 @@ import { SET_CURRENT_POS } from '../actions/types';
 
 const initialState = {
   center: {},
-  zoom: 14
+  zoom: 14,
+  yourCoord: {},
+  taxiCoord: []
 };
 
 export default function(state = initialState, action) {
@@ -10,7 +12,9 @@ export default function(state = initialState, action) {
     case SET_CURRENT_POS:
       return {
         center: action.payload.center,
-        zoom: action.payload.zoom
+        zoom: action.payload.zoom,
+        yourCoord: action.payload.yourCoord,
+        taxiCoord: action.payload.taxiCoord
       };
     default:
       return state;
