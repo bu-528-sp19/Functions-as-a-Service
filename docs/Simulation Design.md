@@ -17,7 +17,12 @@ For driver:
 3. Heading to destination: driver picks passenger, and sends passenger to the destination.
 4. Order finished: Driver has sent passenger to the destination, order finished. In this case, passenger will leave this system and driver starts waiting for a new order.
 
-Below are some figures to show the process:
+Below are some figures to show the process:  
+<img width="50%" height="50%" src="https://github.com/bu-528-sp19/Functions-as-a-Service/blob/documentation/images/simulation/basic_pro_1.jpg" align=center/>  
+<img width="50%" height="50%" src="https://github.com/bu-528-sp19/Functions-as-a-Service/blob/documentation/images/simulation/basic_pro_2.jpg" align=center/>  
+<img width="50%" height="50%" src="https://github.com/bu-528-sp19/Functions-as-a-Service/blob/documentation/images/simulation/basic_pro_3.jpg" align=center/>  
+<img width="50%" height="50%" src="https://github.com/bu-528-sp19/Functions-as-a-Service/blob/documentation/images/simulation/basic_pro_4.jpg" align=center/>  
+
 
 
 
