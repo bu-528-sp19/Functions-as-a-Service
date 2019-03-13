@@ -20,7 +20,9 @@ curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo apt-get update && sudo apt-get install google-cloud-sdk
 ```
 Note: For additional apt-get options, such as disabling prompts or dry runs, refer to the apt-get man pages.
+
 Optionally, install any of these additional components:
+```
 google-cloud-sdk-app-engine-python
 google-cloud-sdk-app-engine-python-extras
 google-cloud-sdk-app-engine-java
@@ -32,6 +34,7 @@ google-cloud-sdk-cbt
 google-cloud-sdk-cloud-build-local
 google-cloud-sdk-bigtable-emulator
 kubectl
+```
 For example, the google-cloud-sdk-app-engine-java component can be installed as follows:
 ```
 sudo apt-get install google-cloud-sdk-app-engine-java
@@ -41,3 +44,12 @@ sudo apt-get install google-cloud-sdk-app-engine-java
 ```
 gcloud init
 ```
+After this, a log in webpage will pop out for you to log in the account used for google cloud platform.
+
+### Set up Google Cloud Platform Default
+```
+gcloud config set project tszlam-host-vpc
+gcloud config set compute/region us-east1
+gcloud config set compute/zone us-east1-b
+```
+
