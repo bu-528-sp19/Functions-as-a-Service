@@ -1,4 +1,17 @@
-package PACKAGE_NAME;
+public class DriverThread extends Thread{
 
-public class DriverThread {
+    @Override
+    public void run() {
+        Driver driver = DataLayerHelper.createNewDriver();
+        while (true) {
+            try {
+                Thread.sleep(1000);
+
+                System.out.println("Driver Location" + )
+            } catch (InterruptedException ie) {
+
+            }
+        }
+    }
+
 }

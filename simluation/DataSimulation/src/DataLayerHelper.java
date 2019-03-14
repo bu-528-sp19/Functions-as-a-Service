@@ -1,4 +1,4 @@
-public class Controller {
+public class DataLayerHelper {
 
     //all candidate chars that would be using in generating
     public static final String[] CANDIDATE_CHARS =  new String[] { "a", "b", "c", "d", "e", "f",
@@ -8,6 +8,9 @@ public class Controller {
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z" };
 
+    //usually a person can move 56m per minute, equals to 5.068e-4 latitude, equals to 56/111000*cos(latitude) longitude
+    // basic simulation: 42.3508011,-71.1399532 -> 42.3493101,-71.1075554
+
     public static String generateID(char type) {
         StringBuilder sb = new StringBuilder();
         sb.append(type);
@@ -16,6 +19,34 @@ public class Controller {
         }
         return sb.toString();
     }
+
+    public static String generateDriverID() {
+        String resultID = DataLayerHelper.generateID('D');
+        while (Driver.driverIDs.contains(resultID)) {
+            resultID = DataLayerHelper.generateID('D');
+        }
+        return resultID;
+    }
+
+    public static String generatePassengerID() {
+        String resultID = DataLayerHelper.generateID('D');
+        while (Driver.driverIDs.contains(resultID)) {
+            resultID = DataLayerHelper.generateID('D');
+        }
+        return resultID;
+    }
+
+    public static Driver createNewDriver() {
+        String driverID = generateDriverID();
+        double[] location = {42.3508011,-71.1399532};
+        Driver driver = new Driver(driverID, location, 0, 0, 0);
+        Driver.driverList.add(driver);
+        Driver.driverIDs.add(driverID);
+        return driver;
+    }
+
+
+
 
 
 

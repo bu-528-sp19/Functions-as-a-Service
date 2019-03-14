@@ -1,4 +1,7 @@
-package PACKAGE_NAME;
+public class PassengerThread extends Thread{
 
-public class PassengerThread {
+    public void run () {
+        ;
+    }
+
 }
