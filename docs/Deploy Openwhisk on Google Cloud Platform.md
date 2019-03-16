@@ -113,7 +113,30 @@ nginx:
  
  
 ### Deploy openwhisk
+Deploy Openwhisk
+```
+helm install ./helm/openwhisk --namespace=openwhisk --name=owdev -f myclusterGCP.yaml
+```
 
+Check the status of the deployment
+```
+helm status owdev
+```
+
+Once the Install-pakcages pod is finished, run the test
+```
+helm test owdev
+```
+if the tests passed, the deployment is finished
+
+### Redeployment
+Often times the deployment cannot be finished due to various reasons. During these circumstances, usually doint a helm del and redo the deployment will help
+
+To delete the current owdev
+```
+helm del --purge owdev
+```
+And then redo the install
 ```
 helm install ./helm/openwhisk --namespace=openwhisk --name=owdev -f myclusterGCP.yaml
 ```
