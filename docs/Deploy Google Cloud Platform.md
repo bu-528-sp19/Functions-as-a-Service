@@ -70,7 +70,7 @@ kubectl get nodes -o wide
 By now, the project is setup and can be accessed.
 To swich back to the local minikube service, use kubectl config use-context will do.
 
-## Deploy a hello world app on GKE
+## Deploy a hello world app on GKE (Optional)
 
 ### Build the docker image
 To download the hello-app source code, run the following commands:
@@ -128,3 +128,49 @@ Delete the Service: This step will deallocate the Cloud Load Balancer created fo
 ```
 kubectl delete service hello-service
 ```
+
+## Deploy Openwhisk (ongoing)
+
+### helm init
+start with the same helm instructions
+```
+helm init
+kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
+```
+
+### label nodes
+check the nodes
+```
+kubectl get nodes
+```
+
+label the wanted node to be the invoker
+```
+kubectl label nodes <INVOKER_NODE_NAME> openwhisk-role=invoker
+```
+
+### customize mycluster.yaml
+Create another 'mycluster.yaml' file in the git reporsitory. 
+To distinguish from the previous minikube one. Here the file will be names as myclusterGCP.yaml.
+The contents are as follows:
+```
+whisk:
+ ingress:
+   apiHostName: openwhisk.faas.compulty.com
+   apiHostPort: 31001
+   type: NodePort
+   annotations:
+     kubernetes.io/ingress.class: nginx
+     nginx.ingress.kubernetes.io/proxy-body-size: 0
+
+nginx:
+ httpsNodePort: 31001 
+ ```
+ 
+ 
+### Deploy openwhisk
+
+```
+helm install ./helm/openwhisk --namespace=openwhisk --name=owdev -f myclusterGCP.yaml
+```
+
