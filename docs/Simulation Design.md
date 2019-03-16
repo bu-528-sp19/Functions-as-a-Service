@@ -23,6 +23,17 @@ Below are some figures to show the process:
 <img width="50%" height="50%" src="https://github.com/bu-528-sp19/Functions-as-a-Service/blob/documentation/images/simulation/basic_pro_3.jpg" align=center/>  
 <img width="50%" height="50%" src="https://github.com/bu-528-sp19/Functions-as-a-Service/blob/documentation/images/simulation/basic_pro_4.jpg" align=center/>  
 
+### 2.2 Implementation for basic condition
+Implementation can be divided into two parts, one part play role of user, in this example we use a Java program to generate fake data, one thread for passenger, one for driver. corresponding actions file at OW side is written in python.
+#### 2.2.1 Information sent from user
+Information sent from driver and passenger are composed of:
+* passenger/driver ID: a unique ID
+* location: including latitude and longitude
+* state: definition of state is mentioned before
+* destination: for specific state
+* time stamp: for metric part and future use
+#### 2.2.2 Handling work by OW
+For requests sent from users, server updates their information using Redis database. Redis stores each user's info using hash value.
 
 
 
