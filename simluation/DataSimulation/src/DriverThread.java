@@ -6,9 +6,9 @@ public class DriverThread extends Thread{
         while (true) {
             try {
                 Thread.sleep(1000);
-
-                System.out.println("Driver Location" + )
+                System.out.println("Driver Location");
             } catch (InterruptedException ie) {
+
 
             }
         }
