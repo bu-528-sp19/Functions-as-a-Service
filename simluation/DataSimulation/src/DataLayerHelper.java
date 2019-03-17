@@ -16,7 +16,12 @@ public class DataLayerHelper {
     // in this simulation, driver speed would be 6m/s, equals to 5.4e-5 lati/s, equals to 5.4e-5*cos(latitude) longitude/s
     // basic simulation: passenger 42.3508011,-71.1399532 -> driver 42.3493101,-71.1075554->destination:42.3515459,-71.0664048
 
-    public void driver2Work(Driver driver, Passenger passenger) {
+    public void packDP(Driver driver, Passenger passenger) {
+        // add driver to passenger
+        passenger.setAssignedDriver(driver);
+        passenger.setState(2);
+
+        // add passenger to driver
         driver.setAssignedPassenger(passenger);
         driver.setDestinationLocation(passenger.getDestinationLocation());
         driver.setPassengerLocation(passenger.getCurrentLocation());
@@ -71,6 +76,11 @@ public class DataLayerHelper {
         }
     }
 
+    public void passengerToIdle(Passenger passenger) {
+        passenger.setAssignedDriver(null);
+        Passenger.getPassengerIDs().remove(passenger.getId());
+        Passenger.getPassengerList().remove(passenger);
+    }
 
     public static String generateDriverID() {
         String resultID = DataLayerHelper.generateID('D');

@@ -5,9 +5,23 @@ public class Passenger {
     private static HashSet<Driver> passengerList;
     private static HashSet<String> passengerIDs;
 
-
     private String id;
     private double[] currentLocation;
+    private double[] movePara; //[lati, longi]
+    private double[] destinationLocation;
+    private String timeStamp;
+    private Driver assignedDriver;
+
+    public Passenger(String id, double[] currentLocation, int state, double[] movePara, double[] destinationLocation, String timeStamp, Driver assignedDriver) {
+        this.id = id;
+        this.currentLocation = currentLocation;
+        this.state = state;
+        this.movePara = movePara;
+        this.destinationLocation = destinationLocation;
+        this.timeStamp = timeStamp;
+        this.assignedDriver = assignedDriver;
+    }
+
 
     public static HashSet<Driver> getPassengerList() {
         return passengerList;
@@ -83,20 +97,7 @@ public class Passenger {
 
     private int state;
 
-    public Passenger(String id, double[] currentLocation, int state, double[] movePara, double[] destinationLocation, String timeStamp, Driver assignedDriver) {
-        this.id = id;
-        this.currentLocation = currentLocation;
-        this.state = state;
-        this.movePara = movePara;
-        this.destinationLocation = destinationLocation;
-        this.timeStamp = timeStamp;
-        this.assignedDriver = assignedDriver;
-    }
 
-    private double[] movePara; //[lati, longi]
-    private double[] destinationLocation;
-    private String timeStamp;
-    private Driver assignedDriver;
 
 
 }
