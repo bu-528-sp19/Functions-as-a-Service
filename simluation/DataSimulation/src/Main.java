@@ -1,11 +1,12 @@
 
+import redis.clients.jedis.Jedis;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class Main {
+
+    public static Object lock;
 
     public static void main(String[] args) {
         //System.out.println(DataLayerHelper.generateID('P'));
@@ -25,8 +26,36 @@ public class Main {
                 System.out.println(i);
             }
         }*/
+        //init();
+        RedisHelper redisHelper = new RedisHelper();
+        ThreadActivity activities = new ThreadActivity();
+        Thread userThread = new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        activities.userActivity();
+                    }
+                }
+        );
 
+        Thread serverThread = new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        activities.serverActivity();
+                    }
+                }
+        );
+
+        userThread.start();
+        serverThread.start();
 
 
     }
+
+    private static void init(){
+        Driver d = new Driver();
+    }
 }
+
+

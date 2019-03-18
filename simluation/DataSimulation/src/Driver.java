@@ -2,8 +2,8 @@ import java.util.HashSet;
 
 public class Driver {
 
-    private static HashSet<Driver> driverList;
-    private static HashSet<String> driverIDs;
+    public static HashSet<Driver> driverList = new HashSet<>();
+    public static HashSet<String> driverIDs = new HashSet<>();
 
 
     private String id;
@@ -16,7 +16,6 @@ public class Driver {
     private Passenger assignedPassenger;
 
 
-
     public static HashSet<Driver> getDriverList() {
         return driverList;
     }
@@ -27,6 +26,10 @@ public class Driver {
 
     public void setAssignedPassenger(Passenger assignedPassenger) {
         this.assignedPassenger = assignedPassenger;
+    }
+
+    public Driver() {
+
     }
 
     public Driver(String id, double[] location, int state, double[] movePara, double[] passengerLocation, double[] destinationLocation, String timeStamp, Passenger assignedPassenger) {
@@ -52,20 +55,20 @@ public class Driver {
         Driver.driverIDs = driverIDs;
     }
 
-    public double[] getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public void setCurrentLocation(double[] currentLocation) {
-        this.currentLocation = currentLocation;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public double[] getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(double[] currentLocation) {
+        this.currentLocation = currentLocation;
     }
 
     public int getState() {

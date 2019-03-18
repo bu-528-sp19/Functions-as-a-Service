@@ -1,5 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataLayerHelper {
 
@@ -10,14 +12,15 @@ public class DataLayerHelper {
             "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z" };
-    private double[] noLocation = {-1,-1};
+    private static final double[] NULL_LOCATION = {-1,-1};
 
     // usually a person can move 0.9m per second, equals to 8.4e-6 latitude, equals to 8.4e-6*cos(latitude) longitude
-    // in this simulation, driver speed would be 6m/s, equals to 5.4e-5 lati/s, equals to 5.4e-5*cos(latitude) longitude/s
+    // in this simulation, driver speed would be 11m/s, equals to 1e-4 lati/s, equals to 1e-4/cos(latitude) longitude/s
     // basic simulation: passenger 42.3508011,-71.1399532 -> driver 42.3493101,-71.1075554->destination:42.3515459,-71.0664048
 
-    public void packDP(Driver driver, Passenger passenger) {
+    public static void packDP(Driver driver, Passenger passenger) {
         // add driver to passenger
+        System.out.println((driver == null) + "" + passenger == null);
         passenger.setAssignedDriver(driver);
         passenger.setState(2);
 
@@ -28,17 +31,24 @@ public class DataLayerHelper {
         driver.setState(2);
     }
 
-    public void driver2Idle(Driver driver) {
+    public static void driver2Idle(Driver driver) {
+        passenger2Idle(driver.getAssignedPassenger());
         driver.setAssignedPassenger(null);
-        driver.setDestinationLocation(noLocation);
-        driver.setPassengerLocation(noLocation);
+        driver.setDestinationLocation(NULL_LOCATION);
+        driver.setPassengerLocation(NULL_LOCATION);
         driver.setState(1);
     }
 
+    private static void passenger2Idle(Passenger passenger) {
+        passenger.setAssignedDriver(null);
+        Passenger.passengerIDs.remove(passenger.getId());
+        Passenger.passengerList.remove(passenger);
+        RedisHelper.deletePassenger(passenger.getId());
+    }
 
-    public void driverMove(Driver driver) {
-        if (driver.getState() == 1 || driver.getState() == 4) {
-            return;
+    public static boolean driverMove(Driver driver) {
+        if (driver == null || driver.getState() == 1 || driver.getState() == 4) {
+            return false;
         }
 
         double[] currentLocation = driver.getCurrentLocation();
@@ -46,14 +56,15 @@ public class DataLayerHelper {
 
         // need to modify when we add action to state 1 and state 4
         double[] currentDestination = (driver.getState() == 2) ? driver.getPassengerLocation() : driver.getDestinationLocation();
-
         if (currentDestination[0] != currentLocation[0]) {
+            //System.out.println(currentDestination[0] + " " + currentLocation[0]);
             if (Math.abs(currentLocation[0] - currentDestination[0]) < selfPara[0]) {
                 currentLocation[0] = currentDestination[0];
             } else {
                 currentLocation[0] += ((currentLocation[0] > currentDestination[0]) ? -1 : 1) * selfPara[0];
             }
         } else if (currentDestination[1] != currentLocation[1]) {
+            //System.out.println(currentDestination[1] + " " + currentLocation[1] + " " + selfPara[1]);
             if (Math.abs(currentLocation[1] - currentDestination[1]) < selfPara[1]) {
                 currentLocation[1] = currentDestination[1];
             } else {
@@ -61,11 +72,14 @@ public class DataLayerHelper {
             }
         } else {
             driver.setState((driver.getState() == 2) ? 3 : 4);
+            driver.getAssignedPassenger().setState(driver.getState());
+            System.out.println("set to " + driver.getState());
         }
+        return true;
     }
 
-    public void passengerMove(Passenger passenger) {
-        if (passenger.getState() == 2 || passenger.getState() == 3) {
+    public static void passengerMove(Passenger passenger) {
+        if (passenger.getState() == 3) {
             try {
                 Driver driver = passenger.getAssignedDriver();
                 passenger.setCurrentLocation(driver.getCurrentLocation());
@@ -76,26 +90,36 @@ public class DataLayerHelper {
         }
     }
 
-    public void passengerToIdle(Passenger passenger) {
-        passenger.setAssignedDriver(null);
-        Passenger.getPassengerIDs().remove(passenger.getId());
-        Passenger.getPassengerList().remove(passenger);
-    }
+
 
     public static String generateDriverID() {
         String resultID = DataLayerHelper.generateID('D');
-        while (Driver.getDriverIDs().contains(resultID)) {
+        while (Driver.driverIDs.contains(resultID)) {
             resultID = DataLayerHelper.generateID('D');
         }
         return resultID;
     }
 
     public static String generatePassengerID() {
-        String resultID = DataLayerHelper.generateID('D');
-        while (Driver.getDriverIDs().contains(resultID)) {
-            resultID = DataLayerHelper.generateID('D');
+        String resultID = DataLayerHelper.generateID('P');
+        while (Passenger.passengerIDs.contains(resultID)) {
+            resultID = DataLayerHelper.generateID('P');
         }
         return resultID;
+    }
+
+    public static Driver searchDriver(String id) {
+        for (Driver driver : Driver.driverList) {
+            if (driver.getId().equals(id)) return driver;
+        }
+        return null;
+    }
+
+    public static Passenger searchPassenger(String id) {
+        for (Passenger passenger : Passenger.passengerList) {
+            if (passenger.getId().equals(id)) return passenger;
+        }
+        return null;
     }
 
     public static Driver createNewDriver() {
@@ -104,11 +128,25 @@ public class DataLayerHelper {
         double[] selfLocation = {42.3508011,-71.1399532};
         double[] pasLocation = {-1,-1};
         double[] destiLocation = {-1,-1};
-        double[] movePara = {5.4e-5, 5.4e-5 * Math.cos(selfLocation[0])};
-        Driver driver = new Driver(driverID, selfLocation, 0, movePara, pasLocation, destiLocation, timeStamp(), null);
+        double[] movePara = {1e-4, Math.abs(1e-4 / Math.cos(selfLocation[0]))};
+        Driver driver = new Driver(driverID, selfLocation, 1, movePara, pasLocation, destiLocation, timeStamp(), null);
         Driver.getDriverList().add(driver);
         Driver.getDriverIDs().add(driverID);
+        RedisHelper.addNewDriver(driverID);
         return driver;
+    }
+
+    public static Passenger createNewPassenger() {
+        String passengerID = generatePassengerID();
+        //double[] location = {42.3508011,-71.1399532};
+        double[] selfLocation = {42.3493101,-71.1075554};
+        double[] destiLocation = {42.3515459,-71.0664048};
+        double[] movePara = {8.4e-6, Math.abs(8.4e-6 / Math.cos(selfLocation[0]))};
+        Passenger passenger = new Passenger(passengerID, selfLocation, 1, movePara, destiLocation, timeStamp(), null);
+        Passenger.passengerList.add(passenger);
+        Passenger.passengerIDs.add(passengerID);
+        RedisHelper.addNewPassenger(passengerID);
+        return passenger;
     }
 
     private static String timeStamp() {
@@ -124,6 +162,37 @@ public class DataLayerHelper {
         for (int i = 0; i < 15; i++) {
             sb.append(CANDIDATE_CHARS[(int)(Math.random()*(CANDIDATE_CHARS.length-1))]);
         }
+        return sb.toString();
+    }
+
+    public static Map<String, String> generateDriverMap(Driver driver) {
+        Map<String, String> info = new HashMap<>();
+        boolean hasPas = driver.getAssignedPassenger() != null;
+        info.put("current_location", location2String(driver.getCurrentLocation()));
+        info.put("state", driver.getState()+"");
+        info.put("pass_id", hasPas ? driver.getAssignedPassenger().getId() : "nan");
+        info.put("pass_location", (hasPas ? location2String(driver.getAssignedPassenger().getCurrentLocation()) : location2String(NULL_LOCATION)));
+        info.put("pass_destination", (hasPas ? location2String(driver.getAssignedPassenger().getDestinationLocation()) : location2String(NULL_LOCATION)));
+        info.put("time_info", driver.getTimeStamp());
+        return info;
+    }
+
+    public static Map<String, String> generatePassengerMap(Passenger passenger) {
+        Map<String, String> info = new HashMap<>();
+        boolean hasDriver = passenger.getAssignedDriver() != null;
+        info.put("current_location", location2String(passenger.getCurrentLocation()));
+        info.put("state", passenger.getState()+"");
+        info.put("driver_id", hasDriver ? passenger.getAssignedDriver().getId() : "nan");
+        info.put("destination", location2String(passenger.getDestinationLocation()));
+        info.put("time_info", passenger.getTimeStamp());
+        return info;
+    }
+
+    private static String location2String(double[] location) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(location[0]);
+        sb.append("   ");
+        sb.append(location[1]);
         return sb.toString();
     }
 
