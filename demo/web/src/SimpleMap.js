@@ -3,20 +3,14 @@ import GoogleMapReact from 'google-map-react';
 import { googleMapKey } from './config/keys';
 import { connect } from 'react-redux';
 import { CoordinateStyle } from './CoordinateStyle';
+import { CoordinateStyle2 } from './CoordinateStyle2';
 import PropTypes from 'prop-types';
 import isEmpty from './isEmpty';
 
-const CoordinateComponent = ({ text }) => <div style={ CoordinateStyle }>{text}</div>;
+const Coordinate1Component = ({ text }) => <div style={ CoordinateStyle }>{text}</div>;
+const Coordinate2Component = ({ text }) => <div style={ CoordinateStyle2 }>{text}</div>
 
 class SimpleMap extends Component {
-
-  componentDidMount() {
-    this.setState({
-      center: this.state.center,
-      zoom: this.state.zoom,
-      yourCoord: {}
-    });
-  }
 
   componentWillReceiveProps(nextProps) {
 
@@ -34,7 +28,7 @@ class SimpleMap extends Component {
       center: newCenter,
       zoom: nextProps.map.zoom,
       yourCoord: newYourCoord,
-      taxiCoord: []
+      taxiCoord: nextProps.map.taxiCoord
     });
   }
 
@@ -51,9 +45,16 @@ class SimpleMap extends Component {
 
   render() {
 
-    const marker = isEmpty(this.state.yourCoord) ? null : (<CoordinateComponent
+    const yourMarker = isEmpty(this.state.yourCoord) ? null : (<Coordinate1Component
       {...this.state.yourCoord}
     />)
+
+    const driverMarker = isEmpty(this.state.taxiCoord) ? null : (this.state.taxiCoord.map(coor => 
+        <Coordinate2Component
+          key = {coor.id}
+          {...coor}
+        />
+      ))
 
     return (
       <div style={{ height: '100vh', width: '100%' }}>
@@ -63,7 +64,8 @@ class SimpleMap extends Component {
           zoom={this.state.zoom}
           defaultLayerTypes={this.props.layerTypes}
         >
-        { marker }
+        { yourMarker }
+        { driverMarker }
         </GoogleMapReact>
       </div>
     );

@@ -1,4 +1,4 @@
-import { SET_CURRENT_POS } from '../actions/types';
+import { SET_CURRENT_POS, SET_DRIVER_POS } from '../actions/types';
 
 const initialState = {
   center: {},
@@ -15,6 +15,11 @@ export default function(state = initialState, action) {
         zoom: action.payload.zoom,
         yourCoord: action.payload.yourCoord,
         taxiCoord: action.payload.taxiCoord
+      };
+    case SET_DRIVER_POS:
+      return {
+        ...state,
+        taxiCoord: action.payload
       };
     default:
       return state;
