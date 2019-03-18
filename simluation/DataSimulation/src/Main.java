@@ -27,7 +27,9 @@ public class Main {
             }
         }*/
         //init();
-        RedisHelper redisHelper = new RedisHelper();
+
+
+        /*RedisHelper redisHelper = new RedisHelper();
         ThreadActivity activities = new ThreadActivity();
         Thread userThread = new Thread(
                 new Runnable() {
@@ -48,7 +50,17 @@ public class Main {
         );
 
         userThread.start();
-        serverThread.start();
+        serverThread.start();*/
+
+        final RedisHelper redisHelper = new RedisHelper();
+
+        DriverThread driverThread = new DriverThread(3,redisHelper);
+        PassengerThread passengerThread = new PassengerThread(3,redisHelper);
+        ThreadRoamingActivity threadRoamingActivity = new ThreadRoamingActivity(redisHelper);
+
+        driverThread.start();
+        passengerThread.start();
+        threadRoamingActivity.start();
 
 
     }

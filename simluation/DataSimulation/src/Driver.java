@@ -43,6 +43,12 @@ public class Driver {
         this.assignedPassenger = assignedPassenger;
     }
 
+    public Driver(String id, double[] currentLocation, double[] movePara) {
+        this.id = id;
+        this.currentLocation = currentLocation;
+        this.movePara = movePara;
+    }
+
     public static void setDriverList(HashSet<Driver> driverList) {
         Driver.driverList = driverList;
     }

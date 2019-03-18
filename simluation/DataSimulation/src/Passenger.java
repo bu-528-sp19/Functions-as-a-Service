@@ -79,7 +79,9 @@ public class Passenger {
         this.assignedDriver = assignedDriver;
     }
 
-
-
-
+    public Passenger(String id, double[] currentLocation, double[] movePara) {
+        this.id = id;
+        this.currentLocation = currentLocation;
+        this.movePara = movePara;
+    }
 }

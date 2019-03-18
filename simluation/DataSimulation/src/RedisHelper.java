@@ -28,6 +28,14 @@ public class RedisHelper {
         return jedis;
     }
 
+    public static void request4DraftDriver(Driver driver) {
+        driverInfoConnection.hset(driver.getId(),DataLayerHelper.generateDraftDriverMap(driver));
+    }
+
+    public static void request4DraftPassenger(Passenger passenger) {
+        passengerInfoConnection.hset(passenger.getId(),DataLayerHelper.generateDraftPassengerMap(passenger));
+    }
+
     public static void request4Driver(Driver driver) {
         driverInfoConnection.hmset(driver.getId(),DataLayerHelper.generateDriverMap(driver));
     }

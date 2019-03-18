@@ -13,10 +13,26 @@ public class DataLayerHelper {
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z" };
     private static final double[] NULL_LOCATION = {-1,-1};
+    private static final double[] BOTTOMLEFT = {42.3259015,-71.0797181};
+    private static final double[] TOPRIGHT = {42.3863267,-71.0234668};
 
     // usually a person can move 0.9m per second, equals to 8.4e-6 latitude, equals to 8.4e-6*cos(latitude) longitude
     // in this simulation, driver speed would be 11m/s, equals to 1e-4 lati/s, equals to 1e-4/cos(latitude) longitude/s
     // basic simulation: passenger 42.3508011,-71.1399532 -> driver 42.3493101,-71.1075554->destination:42.3515459,-71.0664048
+
+    public static void randomMoveDriver(Driver driver) {
+
+        double[] currentLocation = driver.getCurrentLocation();
+        double[] movePara = driver.getMovePara();
+        generateMoveLocation(currentLocation, movePara);
+    }
+
+    public static void randomMovePassenger(Passenger passenger) {
+        double[] currentLocation = passenger.getCurrentLocation();
+        double[] movePara = passenger.getMovePara();
+        generateMoveLocation(currentLocation, movePara);
+    }
+
 
     public static void packDP(Driver driver, Passenger passenger) {
         // add driver to passenger
@@ -122,12 +138,36 @@ public class DataLayerHelper {
         return null;
     }
 
+    public static Driver createDraftDriver() {
+        String driverID = generateDriverID();
+        //double[] location = {42.3508011,-71.1399532};
+        double[] selfLocation = generateRandomLocation();
+        double[] movePara = {1e-4, Math.abs(1e-4 / Math.cos(selfLocation[0]))};
+        Driver driver = new Driver(driverID, selfLocation, movePara);
+        Driver.getDriverList().add(driver);
+        Driver.getDriverIDs().add(driverID);
+        RedisHelper.addNewDriver(driverID);
+        return driver;
+    }
+
+    public static Passenger createDraftPassenger() {
+        String passengerID = generatePassengerID();
+        //double[] location = {42.3508011,-71.1399532};
+        double[] selfLocation = generateRandomLocation();
+        double[] movePara = {8.4e-6, Math.abs(8.4e-6 / Math.cos(selfLocation[0]))};
+        Passenger passenger = new Passenger(passengerID, selfLocation,  movePara);
+        Passenger.passengerList.add(passenger);
+        Passenger.passengerIDs.add(passengerID);
+        RedisHelper.addNewPassenger(passengerID);
+        return passenger;
+    }
+
     public static Driver createNewDriver() {
         String driverID = generateDriverID();
         //double[] location = {42.3508011,-71.1399532};
         double[] selfLocation = {42.3508011,-71.1399532};
-        double[] pasLocation = {-1,-1};
-        double[] destiLocation = {-1,-1};
+        double[] pasLocation = NULL_LOCATION;
+        double[] destiLocation = NULL_LOCATION;
         double[] movePara = {1e-4, Math.abs(1e-4 / Math.cos(selfLocation[0]))};
         Driver driver = new Driver(driverID, selfLocation, 1, movePara, pasLocation, destiLocation, timeStamp(), null);
         Driver.getDriverList().add(driver);
@@ -153,7 +193,7 @@ public class DataLayerHelper {
         String FORMAT_FULL = "yyyy MM dd HH mm ss S";
         SimpleDateFormat df = new SimpleDateFormat(FORMAT_FULL);
         Calendar calendar = Calendar.getInstance();
-        return df.format(calendar.getTime()).toString();
+        return df.format(calendar.getTime());
     }
 
     private static String generateID(char type) {
@@ -163,6 +203,18 @@ public class DataLayerHelper {
             sb.append(CANDIDATE_CHARS[(int)(Math.random()*(CANDIDATE_CHARS.length-1))]);
         }
         return sb.toString();
+    }
+
+    public static Map<String, String> generateDraftDriverMap(Driver driver) {
+        Map<String, String> info = new HashMap<>();
+        info.put("current_location", location2String(driver.getCurrentLocation()));
+        return info;
+    }
+
+    public static Map<String, String> generateDraftPassengerMap(Passenger passenger) {
+        Map<String, String> info = new HashMap<>();
+        info.put("current_location", location2String(passenger.getCurrentLocation()));
+        return info;
     }
 
     public static Map<String, String> generateDriverMap(Driver driver) {
@@ -194,6 +246,28 @@ public class DataLayerHelper {
         sb.append("   ");
         sb.append(location[1]);
         return sb.toString();
+    }
+
+    private static void generateMoveLocation(double[] location, double[] movePara) {
+        location[0] += ((Math.random() > 0.5) ? 1 : -1) * Math.random() * movePara[0];
+        location[0] = (location[0] > TOPRIGHT[0]) ? TOPRIGHT[0] : location[0];
+        location[0] = (location[0] < BOTTOMLEFT[0]) ? BOTTOMLEFT[0] : location[0];
+
+        location[1] += ((Math.random() > 0.5) ? 1 : -1) * Math.random() * movePara[1];
+        location[1] = location[1] > TOPRIGHT[1] ? TOPRIGHT[1] : location[1];
+        location[1] = location[1] < BOTTOMLEFT[1] ? BOTTOMLEFT[1] : location[1];
+    }
+
+    private static double[] generateRandomLocation() {
+
+        double latiDistance = TOPRIGHT[0] - BOTTOMLEFT[0];
+        double longiDistance = TOPRIGHT[1] - BOTTOMLEFT[1];
+
+        double[] location = {(BOTTOMLEFT[0] + (Math.random()*latiDistance)), (BOTTOMLEFT[1] + (Math.random()*longiDistance))};
+        //System.out.println(location[0]);
+
+        return location;
+
     }
 
 
