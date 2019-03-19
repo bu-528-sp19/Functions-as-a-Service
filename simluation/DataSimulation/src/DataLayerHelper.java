@@ -243,7 +243,7 @@ public class DataLayerHelper {
     private static String location2String(double[] location) {
         StringBuilder sb = new StringBuilder();
         sb.append(location[0]);
-        sb.append("   ");
+        sb.append(" ");
         sb.append(location[1]);
         return sb.toString();
     }

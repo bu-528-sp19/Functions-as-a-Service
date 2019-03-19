@@ -18,8 +18,6 @@ public class ThreadRoamingActivity extends Thread{
         synchronized (redisHelper) {
             ;
         }
-
-
         while(true) {
             synchronized (redisHelper) {
                 try {
