@@ -27,7 +27,7 @@ public class PassengerThread extends Thread {
                 try {
                     for (Passenger passenger : passengers) {
                         DataLayerHelper.randomMovePassenger(passenger);
-                        RedisHelper.request4DraftPassenger(passenger);
+                        System.out.println(PostHelper.sendPost(DataLayerHelper.UPDATE_PASSENGER_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
                     }
                     redisHelper.notifyAll();
                     redisHelper.wait();

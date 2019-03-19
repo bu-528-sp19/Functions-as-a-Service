@@ -25,7 +25,7 @@ public class DriverThread extends Thread {
                 try {
                     for (Driver driver : drivers) {
                         DataLayerHelper.randomMoveDriver(driver);
-                        RedisHelper.request4DraftDriver(driver);
+                        System.out.println(PostHelper.sendPost(DataLayerHelper.UPDATE_DRIVER_LINK, DataLayerHelper.wrapDriverJson(driver)));
                     }
                     System.out.println("driver sleep");
                     redisHelper.notify();

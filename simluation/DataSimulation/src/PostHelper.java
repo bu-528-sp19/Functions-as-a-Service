@@ -1,18 +1,15 @@
 import javax.net.ssl.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 import java.security.cert.X509Certificate;
 
 public class PostHelper {
 
     public static String sendPost(String url, String param) {
-        PrintWriter out = null;
         BufferedReader in = null;
         HttpsURLConnection conn = null;
         String result = "";
+        OutputStream out = null;
 
         try {
             trustAllHosts();
@@ -21,15 +18,14 @@ public class PostHelper {
             https.setHostnameVerifier(DO_NOT_VERIFY);
             conn = https;
 
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            conn.setRequestProperty("Content-Type", "text/plain;charset=utf-8");
+            conn.setRequestProperty("accept", "application/json");
+            conn.setRequestProperty("Content-Type", "application/json");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
             // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
+            out = conn.getOutputStream();
+            out.write(param.getBytes());
             // 发送请求参数
             // out.print(a);
             // flush输出流的缓冲

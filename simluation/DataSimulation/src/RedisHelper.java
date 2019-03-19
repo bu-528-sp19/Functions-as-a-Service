@@ -10,6 +10,8 @@ public class RedisHelper {
     public RedisHelper(){
         init();
     }
+    public RedisHelper(int i){
+    }
 
     private void init() {
         passengerInfoConnection = new Jedis("localhost", 6379);

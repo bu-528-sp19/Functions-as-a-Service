@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -15,6 +17,9 @@ public class DataLayerHelper {
     private static final double[] NULL_LOCATION = {-1,-1};
     private static final double[] BOTTOMLEFT = {42.3259015,-71.0797181};
     private static final double[] TOPRIGHT = {42.3863267,-71.0234668};
+    public static final String UPDATE_DRIVER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updateDriver";
+    public static final String UPDATE_PASSENGER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updatePassenger";
+
 
     // usually a person can move 0.9m per second, equals to 8.4e-6 latitude, equals to 8.4e-6*cos(latitude) longitude
     // in this simulation, driver speed would be 11m/s, equals to 1e-4 lati/s, equals to 1e-4/cos(latitude) longitude/s
@@ -146,7 +151,7 @@ public class DataLayerHelper {
         Driver driver = new Driver(driverID, selfLocation, movePara);
         Driver.getDriverList().add(driver);
         Driver.getDriverIDs().add(driverID);
-        RedisHelper.addNewDriver(driverID);
+        //RedisHelper.addNewDriver(driverID);
         return driver;
     }
 
@@ -158,7 +163,7 @@ public class DataLayerHelper {
         Passenger passenger = new Passenger(passengerID, selfLocation,  movePara);
         Passenger.passengerList.add(passenger);
         Passenger.passengerIDs.add(passengerID);
-        RedisHelper.addNewPassenger(passengerID);
+        //RedisHelper.addNewPassenger(passengerID);
         return passenger;
     }
 
@@ -268,6 +273,22 @@ public class DataLayerHelper {
 
         return location;
 
+    }
+
+    public static String wrapDriverJson(Driver driver) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("driver_id", driver.getId());
+        jsonObject.put("latitude", driver.getCurrentLocation()[0]);
+        jsonObject.put("longitude", driver.getCurrentLocation()[1]);
+        return jsonObject.toString();
+    }
+
+    public static String wrapPassengerJson(Passenger passenger) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("passenger_id", passenger.getId());
+        jsonObject.put("latitude", passenger.getCurrentLocation()[0]);
+        jsonObject.put("longitude", passenger.getCurrentLocation()[1]);
+        return jsonObject.toString();
     }
 
 
