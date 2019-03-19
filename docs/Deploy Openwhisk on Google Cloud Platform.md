@@ -88,10 +88,7 @@ check the nodes
 kubectl get nodes
 ```
 
-label the wanted node to be the invoker
-```
-kubectl label nodes <INVOKER_NODE_NAME> openwhisk-role=invoker
-```
+For this time labeling node is NOT NECESSARY. The nodes are already labeled.
 
 ### customize mycluster.yaml
 Create another 'mycluster.yaml' file in the git reporsitory. 
