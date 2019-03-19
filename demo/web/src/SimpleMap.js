@@ -21,6 +21,8 @@ class SimpleMap extends Component {
       lng: Number(nextProps.map.yourCoord.lng)
     }
 
+    console.log(nextProps.map.taxiCoord);
+
     this.setState({
       center: newCenter,
       zoom: nextProps.map.zoom,
@@ -37,24 +39,34 @@ class SimpleMap extends Component {
     zoom: 14,
     layerTypes: ['TrafficLayer'],
     yourCoord: {},
-    taxiCoord: [] 
+    taxiCoord: [
+      {
+        id: "P123123",
+        lat: 42.3400,
+        lng: 288.9088
+      },
+      {
+        id: "P123S",
+        lat: 42.3397,
+        lng: 288.9085
+      }
+    ] 
   }
 
   render() {
 
     const yourMarker = isEmpty(this.state.yourCoord) ? null : (
       <PersonMarker
-        key={this.state.yourCoord.id}
         text={"You"}
         lat={this.state.yourCoord.lat}
         lng={this.state.yourCoord.lng}
       />
     )
-
-    const driverMarker = isEmpty(this.state.taxiCoord) ? null : (this.state.taxiCoord.map(coor => 
+    
+    const driverMarker = isEmpty(this.state.taxiCoord) ? null : (this.state.taxiCoord.map(coor =>
         <DriverMarker
-          key = {coor.id}
-          text = {coor.id}
+          key={coor.id}
+          text={coor.id}
           lat={coor.lat}
           lng={coor.lng}
         />
