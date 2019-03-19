@@ -73,7 +73,7 @@ Delete the Service: This step will deallocate the Cloud Load Balancer created fo
 kubectl delete service hello-service
 ```
 
-## Deploy Openwhisk (ongoing)
+## Deploy Openwhisk
 
 ### helm init
 start with the same helm instructions
@@ -149,7 +149,7 @@ In the file, you could see that for example "php", "swift" etc are all installed
 Now the wsk apihost name  should also be updated. But the wsk auth is still the same.
 ```
 wsk -i property set --apihost openwhisk.faas.compulty.com:31001
-	wsk -i property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
+wsk -i property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
  ```
 ### Create wsk actions and test
 Now we can create a simple python file to test the deployment.
