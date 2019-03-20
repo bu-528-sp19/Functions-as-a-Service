@@ -16,10 +16,15 @@ public class PassengerThread extends Thread {
             passengers[i] = DataLayerHelper.createDraftPassenger();
         }
 
-        for (Passenger passenger: passengers) {
-            DataLayerHelper.randomMovePassenger(passenger);
-            PostHelper.sendPost(DataLayerHelper.UPDATE_PASSENGER_LINK, DataLayerHelper.wrapPassengerJson(passenger));
+        while (true) {
+
+            for (Passenger passenger: passengers) {
+                DataLayerHelper.randomMovePassenger(passenger);
+                //PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapPassengerJson(passenger));
+                System.out.println(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
+            }
         }
+
 
     }
 }
