@@ -39,18 +39,7 @@ class SimpleMap extends Component {
     zoom: 14,
     layerTypes: ['TrafficLayer'],
     yourCoord: {},
-    taxiCoord: [
-      {
-        id: "P123123",
-        lat: 42.3400,
-        lng: 288.9088
-      },
-      {
-        id: "P123S",
-        lat: 42.3397,
-        lng: 288.9085
-      }
-    ] 
+    taxiCoord: [] 
   }
 
   render() {

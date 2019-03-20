@@ -4,6 +4,8 @@ import https from 'https';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+const apiAddress = "https://192.168.99.100:31001/api/v1/web/guest/default/searchDriver"
+
 // set the backend api address
 
 const instance = axios.create({
@@ -40,7 +42,7 @@ export const setPosition = (data) => dispatch => {
   }
 
   instance
-    .get(`https://192.168.99.103:31001/api/23bc46b1-71f6-4ed5-8c54-816aa4f8c502/passengers/location?passenger_id=P123S2&latitude=${data.yourCoord.lat}&longitude=${360 - data.yourCoord.lng}`)
+    .post(apiAddress, query_data)
     .then(res => {
       let drivers = [];
       res.data.drivers.forEach(driver => {
