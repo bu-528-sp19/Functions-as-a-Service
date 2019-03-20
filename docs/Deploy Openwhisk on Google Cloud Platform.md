@@ -73,7 +73,7 @@ Delete the Service: This step will deallocate the Cloud Load Balancer created fo
 kubectl delete service hello-service
 ```
 
-## Deploy Openwhisk (ongoing)
+## Deploy Openwhisk
 
 ### helm init
 start with the same helm instructions
@@ -88,10 +88,7 @@ check the nodes
 kubectl get nodes
 ```
 
-label the wanted node to be the invoker
-```
-kubectl label nodes <INVOKER_NODE_NAME> openwhisk-role=invoker
-```
+For this time labeling node is NOT NECESSARY. The nodes are already labeled.
 
 ### customize mycluster.yaml
 Create another 'mycluster.yaml' file in the git reporsitory. 
@@ -129,7 +126,7 @@ helm test owdev
 ```
 if the tests passed, the deployment is finished
 
-### Redeployment
+### Notes: Redeployment
 Often times the deployment cannot be finished due to various reasons. During these circumstances, usually doint a helm del and redo the deployment will help
 
 To delete the current owdev
@@ -141,3 +138,45 @@ And then redo the install
 helm install ./helm/openwhisk --namespace=openwhisk --name=owdev -f myclusterGCP.yaml
 ```
 
+### Notes: Adjust Runtime
+Sometimes the install-packages pod will run for a long time. It could be optimized if the runtime.json file is adjusted so that some langauges/packages that are not used will not be installed.
+
+The file is under the openwhisk git repo, and under /helm/openwhisk/runtimes.json.
+
+In the file, you could see that for example "php", "swift" etc are all installed. These can be deleted to speed up the deployment time.
+
+### Set up wsk actions
+Now the wsk apihost name  should also be updated. But the wsk auth is still the same.
+```
+wsk -i property set --apihost openwhisk.faas.compulty.com:31001
+wsk -i property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
+ ```
+### Create wsk actions and test
+Now we can create a simple python file to test the deployment.
+Create a hello.py:
+```
+def main(args):
+    name = args.get("name","stranger")
+    greeting = "hello " + name
+    print(greeting)
+    return {"greeting":greeting}
+```
+
+This python file can be deployed as a whisk action by
+```
+wsk -i action create hello hello.py
+```
+
+And to invoke the action simply use
+```
+wsk -i action invoke --result hello --param name World
+```
+
+The result would be 
+```
+{
+    "greeting": "hello World"
+}
+```
+
+Now we know the Openwhisk deployment is ready.

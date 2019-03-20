@@ -1,8 +1,17 @@
-import java.util.UUID;
-
 public class Main {
 
     public static void main(String[] args) {
-        //System.out.println(DataLayerHelper.generateID('P'));
+
+        DriverThread driverThread = new DriverThread(100);
+        PassengerThread passengerThread = new PassengerThread(100);
+
+        driverThread.start();
+        passengerThread.start();
+
+
     }
+
+
 }
+
+

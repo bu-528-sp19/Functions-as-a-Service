@@ -69,3 +69,12 @@ kubectl get nodes -o wide
 
 By now, the project is setup and can be accessed.
 To swich back to the local minikube service, use kubectl config use-context will do.
+
+### Use Google Cloud Platform
+The GCP status can also be checked using the GCP website
+The running services can be checked at
+https://console.cloud.google.com/kubernetes/discovery?authuser=2&organizationId=669079940348&project=tszlam-host-vpc&service_list_tablesize=50
+
+And the VM instances can be checked at
+https://console.cloud.google.com/compute/instances?authuser=2&organizationId=669079940348&project=tszlam-host-vpc&instancessize=50
+Also SSH is enabled here. Simply click on the SSH button would do the job.

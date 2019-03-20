@@ -39,4 +39,7 @@ Then, do the same for the controller: `kubectl edit stateful set <the name of co
 Then, you will see the invoker and controller pod start rebooting, wait until they are running. The metrics are now enabled.  
 
 ## Step 4.
-you can use `kubectl port-forward <name of the pod you get from Step2.> -n monitoring 9102` to view the metrics from browser. After typing it, then go to `http://localhost:9102`  
+you can use `kubectl port-forward <name of the pod you get from Step2.> -n monitoring 9102` to view the metrics from browser. After typing it, then go to `http://localhost:9102`
+
+## Step 5.
+Install Prometheus and Grafana on ubuntu. Add prometheus as data source and design the metrics dashboard for it.  
