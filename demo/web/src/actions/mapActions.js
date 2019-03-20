@@ -19,7 +19,7 @@ export const setDefaultPosition = () => dispatch => {
   const defaultPos = {
     center: {
       lat: 42.3401,
-      lng: 71.092
+      lng: -71.092
     },
     zoom: 14,
     yourCoord: {},
@@ -49,7 +49,7 @@ export const setPosition = (data) => dispatch => {
         const driverInfo = {
           id: driver.id,
           lat: Number(driver.latitude),
-          lng: 360 - Number(driver.longitude)
+          lng: 360 + Number(driver.longitude)
         };
         drivers.push(driverInfo);
       });

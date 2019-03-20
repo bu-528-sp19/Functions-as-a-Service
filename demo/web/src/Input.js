@@ -24,7 +24,7 @@ class Input extends Component {
         lat: this.state.latitude,
         lng: this.state.longtitud
       },
-      zoom: 18,
+      zoom: 15,
       yourCoord: {
         lat: this.state.latitude,
         lng: this.state.longtitude

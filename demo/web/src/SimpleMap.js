@@ -13,12 +13,12 @@ class SimpleMap extends Component {
 
     const newCenter = {
       lat: Number(nextProps.map.center.lat),
-      lng: 360 - Number(nextProps.map.center.lng)
+      lng: 360 + Number(nextProps.map.center.lng)
     }
 
     const newYourCoord = isEmpty(nextProps.map.yourCoord) ? null : {
       lat: Number(nextProps.map.yourCoord.lat),
-      lng: 360 - Number(nextProps.map.yourCoord.lng)
+      lng: 360 + Number(nextProps.map.yourCoord.lng)
     }
 
     this.setState({
@@ -32,7 +32,7 @@ class SimpleMap extends Component {
   state = {
     center: {
       lat: 42.3401,
-      lng: 288.9089
+      lng: -71.092
     },
     zoom: 14,
     layerTypes: ['TrafficLayer'],
