@@ -17,12 +17,18 @@ public class PassengerThread extends Thread {
         }
 
         while (true) {
-
-            for (Passenger passenger: passengers) {
-                DataLayerHelper.randomMovePassenger(passenger);
-                //PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapPassengerJson(passenger));
-                System.out.println(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
+            try {
+                for (Passenger passenger: passengers) {
+                    DataLayerHelper.randomMovePassenger(passenger);
+                    //PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapDriverJson(driver));
+                    Thread.sleep((int)(Math.random()*5) * 1000);
+                    //System.out.println(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
+                    System.out.println(passenger.getId());
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
+
         }
 
 
