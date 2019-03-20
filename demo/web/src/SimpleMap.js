@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { googleMapKey } from './config/keys';
 import { connect } from 'react-redux';
-import { CoordinateStyle } from './CoordinateStyle';
-import { CoordinateStyle2 } from './CoordinateStyle2';
 import PropTypes from 'prop-types';
 import isEmpty from './isEmpty';
-
-const Coordinate1Component = ({ text }) => <div style={ CoordinateStyle }>{text}</div>;
-const Coordinate2Component = ({ text }) => <div style={ CoordinateStyle2 }>{text}</div>
+import PersonMarker from './PersonMarker';
+import DriverMarker from './DriverMarker';
 
 class SimpleMap extends Component {
 
@@ -23,6 +20,8 @@ class SimpleMap extends Component {
       lat: Number(nextProps.map.yourCoord.lat),
       lng: Number(nextProps.map.yourCoord.lng)
     }
+
+    console.log(nextProps.map.taxiCoord);
 
     this.setState({
       center: newCenter,
@@ -45,14 +44,20 @@ class SimpleMap extends Component {
 
   render() {
 
-    const yourMarker = isEmpty(this.state.yourCoord) ? null : (<Coordinate1Component
-      {...this.state.yourCoord}
-    />)
-
-    const driverMarker = isEmpty(this.state.taxiCoord) ? null : (this.state.taxiCoord.map(coor => 
-        <Coordinate2Component
-          key = {coor.id}
-          {...coor}
+    const yourMarker = isEmpty(this.state.yourCoord) ? null : (
+      <PersonMarker
+        text={"You"}
+        lat={this.state.yourCoord.lat}
+        lng={this.state.yourCoord.lng}
+      />
+    )
+    
+    const driverMarker = isEmpty(this.state.taxiCoord) ? null : (this.state.taxiCoord.map(coor =>
+        <DriverMarker
+          key={coor.id}
+          text={coor.id}
+          lat={coor.lat}
+          lng={coor.lng}
         />
       ))
 
