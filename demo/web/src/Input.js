@@ -22,7 +22,7 @@ class Input extends Component {
     const data = {
       center: {
         lat: this.state.latitude,
-        lng: this.state.longtitude
+        lng: this.state.longtitud
       },
       zoom: 18,
       yourCoord: {
@@ -32,10 +32,16 @@ class Input extends Component {
       taxiCoord: [] 
     }
 
-    this.props.setPosition(data);
+    this.timer = setInterval(() => this.props.setPosition(data), 3000);
   }
 
   resetHandler = () => {
+      clearInterval(this.timer);
+      this.setState({
+        latitude: "",
+        longtitude: "",
+        errors: {}
+      });
       this.props.setDefaultPosition();
   }
 
@@ -59,7 +65,7 @@ class Input extends Component {
           />
           <InputGroup
             name="longtitude"
-            placeholder="288.908"
+            placeholder="71.092"
             value={ this.state.longtitude }
             error={ errors.longtitude }
             prepend="Longtitude"

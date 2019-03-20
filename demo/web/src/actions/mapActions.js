@@ -19,7 +19,7 @@ export const setDefaultPosition = () => dispatch => {
   const defaultPos = {
     center: {
       lat: 42.3401,
-      lng: 288.9089
+      lng: 71.092
     },
     zoom: 14,
     yourCoord: {},
@@ -38,7 +38,7 @@ export const setPosition = (data) => dispatch => {
   const query_data = {
     passenger_id: "P123S2",
     latitude: data.yourCoord.lat,
-    longitude: 360 - data.yourCoord.lng
+    longitude: data.yourCoord.lng
   }
 
   instance

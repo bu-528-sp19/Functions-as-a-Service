@@ -13,15 +13,13 @@ class SimpleMap extends Component {
 
     const newCenter = {
       lat: Number(nextProps.map.center.lat),
-      lng: Number(nextProps.map.center.lng)
+      lng: 360 - Number(nextProps.map.center.lng)
     }
 
     const newYourCoord = isEmpty(nextProps.map.yourCoord) ? null : {
       lat: Number(nextProps.map.yourCoord.lat),
-      lng: Number(nextProps.map.yourCoord.lng)
+      lng: 360 - Number(nextProps.map.yourCoord.lng)
     }
-
-    console.log(nextProps.map.taxiCoord);
 
     this.setState({
       center: newCenter,
