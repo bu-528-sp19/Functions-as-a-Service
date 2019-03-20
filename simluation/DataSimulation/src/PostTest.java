@@ -10,8 +10,8 @@ public class PostTest {
         String url = "";
         String query = "";
 
-        url = "https://192.168.99.100:31001/api/v1/web/guest/default/updateDriver";
-        //url = "https://www.baidu.com";
+        //url = "https://192.168.99.100:31001/api/v1/web/guest/default/updateDriver";
+        url = "https://www.baidu.com";
         query = jsonObject.toString();
 
 

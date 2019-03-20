@@ -1,41 +1,25 @@
 public class PassengerThread extends Thread {
 
     int instanceNum;
-    final RedisHelper redisHelper;
     Passenger[] passengers;
 
-    public PassengerThread(int num,RedisHelper redisHelper) {
+    public PassengerThread(int num) {
         super();
         this.instanceNum = num;
-        this.redisHelper = redisHelper;
         this.passengers = new Passenger[instanceNum];
     }
 
     @Override
     public void run() {
 
-        synchronized (redisHelper) {
-            for (int i = 0; i < instanceNum; i++) {
-                passengers[i] = DataLayerHelper.createDraftPassenger();
-            }
+        for (int i = 0; i < passengers.length; i++) {
+            passengers[i] = DataLayerHelper.createDraftPassenger();
         }
 
-        System.out.println("2");
-
-        while (true) {
-            synchronized (redisHelper) {
-                try {
-                    for (Passenger passenger : passengers) {
-                        DataLayerHelper.randomMovePassenger(passenger);
-                        System.out.println(PostHelper.sendPost(DataLayerHelper.UPDATE_PASSENGER_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
-                    }
-                    redisHelper.notifyAll();
-                    redisHelper.wait();
-                } catch (Exception e){
-
-                }
-
-            }
+        for (Passenger passenger: passengers) {
+            DataLayerHelper.randomMovePassenger(passenger);
+            PostHelper.sendPost(DataLayerHelper.UPDATE_PASSENGER_LINK, DataLayerHelper.wrapPassengerJson(passenger));
         }
+
     }
 }
