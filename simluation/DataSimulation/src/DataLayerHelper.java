@@ -19,6 +19,7 @@ public class DataLayerHelper {
     private static final double[] TOPRIGHT = {42.3863267,-71.0234668};
     public static final String UPDATE_DRIVER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updateDriver";
     public static final String UPDATE_PASSENGER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updatePassenger";
+    public static final String POST_TEST_LINK = "https://www.baidu.com";
 
 
     // usually a person can move 0.9m per second, equals to 8.4e-6 latitude, equals to 8.4e-6*cos(latitude) longitude

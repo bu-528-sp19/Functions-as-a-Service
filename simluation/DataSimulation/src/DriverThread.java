@@ -16,10 +16,14 @@ public class DriverThread extends Thread {
             drivers[i] = DataLayerHelper.createDraftDriver();
         }
 
-        for (Driver driver: drivers) {
-            DataLayerHelper.randomMoveDriver(driver);
-            PostHelper.sendPost(DataLayerHelper.UPDATE_DRIVER_LINK, DataLayerHelper.wrapDriverJson(driver));
+        while (true) {
+            for (Driver driver: drivers) {
+                DataLayerHelper.randomMoveDriver(driver);
+                //PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapDriverJson(driver));
+                System.out.println(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapDriverJson(driver)));
+            }
         }
+
 
     }
 }
