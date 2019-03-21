@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "29d36122-4c66-42a0-9200-0e19bc427ae8",
+		"_postman_id": "66a56a96-6eb0-4c94-96d9-c9a82a9ad548",
 		"name": "openwhisk",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -41,10 +41,10 @@
 					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/updateDriver",
 					"protocol": "https",
 					"host": [
-						"192",
-						"168",
-						"99",
-						"100"
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
 					],
 					"port": "31001",
 					"path": [
@@ -95,10 +95,10 @@
 					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/searchPassenger",
 					"protocol": "https",
 					"host": [
-						"192",
-						"168",
-						"99",
-						"100"
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
 					],
 					"port": "31001",
 					"path": [
@@ -149,10 +149,10 @@
 					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/updatePassenger",
 					"protocol": "https",
 					"host": [
-						"192",
-						"168",
-						"99",
-						"100"
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
 					],
 					"port": "31001",
 					"path": [
@@ -203,10 +203,10 @@
 					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/searchDriver",
 					"protocol": "https",
 					"host": [
-						"192",
-						"168",
-						"99",
-						"100"
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
 					],
 					"port": "31001",
 					"path": [
