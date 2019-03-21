@@ -14,6 +14,13 @@ kubectl config use-context gke_tszlam-host-vpc_us-east1-b_faas
 By now, the project is setup and can be accessed.
 To swich back to the local minikube service, use kubectl config use-context will do.
 
+
+***
+Note:
+If only to use a already deployed Openwhisk on GKE. Please go down to the last part 'Use an already deployed Openwhisk'
+***
+
+
 ## Deploy a hello world app on GKE (Optional)
 
 ### Build the docker image
@@ -180,3 +187,22 @@ The result would be
 ```
 
 Now we know the Openwhisk deployment is ready.
+
+
+## Use an already deployed Openwhisk
+
+Once the Openwhisk is already set up, for usage purposes there is actually no need to redo the process again. Simply following this part and then the Openwhisk on GCP can be used.
+
+### Set up kubectl config
+First step is to switch the working kubenetes
+```
+kubectl config get-contexts
+kubectl config use-context gke_tszlam-host-vpc_us-east1-b_faas
+```
+
+### Set up wsk
+```
+wsk -i property set --apihost openwhisk.faas.compulty.com:31001
+```
+
+And now Openwhisk on GCP is ready!
