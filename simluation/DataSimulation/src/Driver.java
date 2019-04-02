@@ -13,7 +13,7 @@ public class Driver {
     private double[] passengerLocation;
     private double[] destinationLocation;
     private String timeStamp;
-    private Passenger assignedPassenger;
+    private String assignedPassengerId;
 
 
     public static HashSet<Driver> getDriverList() {
@@ -39,7 +39,6 @@ public class Driver {
         this.movePara = movePara;
         this.passengerLocation = passengerLocation;
         this.destinationLocation = destinationLocation;
-        this.timeStamp = timeStamp;
         this.assignedPassenger = assignedPassenger;
     }
 

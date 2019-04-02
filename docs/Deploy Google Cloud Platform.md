@@ -40,6 +40,8 @@ For example, the google-cloud-sdk-app-engine-java component can be installed as 
 sudo apt-get install google-cloud-sdk-app-engine-java
 ```
 
+## Initialize gcloud and Function-as-a-Service project on GCP
+
 ### Run gcloud init to get started:
 ```
 gcloud init
@@ -53,3 +55,26 @@ gcloud config set compute/region us-east1
 gcloud config set compute/zone us-east1-b
 ```
 
+### Connect to project name tszlam-host-vpc
+```
+gcloud container clusters get-credentials faas --zone us-east1-b --project tszlam-host-vpc
+```
+
+### Check the project
+```
+kubectl config get-contexts
+kubectl config use-context gke_tszlam-host-vpc_us-east1-b_faas
+kubectl get nodes -o wide
+```
+
+By now, the project is setup and can be accessed.
+To swich back to the local minikube service, use kubectl config use-context will do.
+
+### Use Google Cloud Platform
+The GCP status can also be checked using the GCP website
+The running services can be checked at
+https://console.cloud.google.com/kubernetes/discovery?authuser=2&organizationId=669079940348&project=tszlam-host-vpc&service_list_tablesize=50
+
+And the VM instances can be checked at
+https://console.cloud.google.com/compute/instances?authuser=2&organizationId=669079940348&project=tszlam-host-vpc&instancessize=50
+Also SSH is enabled here. Simply click on the SSH button would do the job.
