@@ -1,0 +1,16 @@
+whisk:
+ ingress:
+   apiHostName: openwhisk.faas.compulty.com
+   apiHostPort: 31001
+   type: NodePort
+   annotations:
+     kubernetes.io/ingress.class: nginx
+     nginx.ingress.kubernetes.io/proxy-body-size: 0
+
+nginx:
+ httpsNodePort: 31001 
+
+invoker:
+  containerFactory:
+    kubernetes:
+      replicaCount: 3

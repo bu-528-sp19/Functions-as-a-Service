@@ -1,0 +1,38 @@
+{
+    "runtimes": {
+        "nodejs": [
+            {
+                "kind": "nodejs:6",
+                "default": true,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "nodejs6action",
+                    "tag": "2c5c075"
+                },
+                "deprecated": false,
+                "stemCells": [{
+                    "count": 2,
+                    "memory": "256 MB"
+                }]
+            }
+        ],
+        "python": [
+            {
+                "kind": "python:3",
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "python3action",
+                    "tag": "d6a8920"
+                },
+                "deprecated": false
+            }
+        ]
+    },
+    "blackboxes": [
+        {
+            "prefix": "openwhisk",
+            "name": "dockerskeleton",
+            "tag": "13361f9"
+        }
+    ]
+}

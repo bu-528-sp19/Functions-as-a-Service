@@ -1,0 +1,18 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+{{ if not .Values.db.external }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-couchdb
+  labels:
+    name: {{ .Release.Name }}-couchdb
+{{ include "openwhisk.label_boilerplate" . | indent 4 }}
+spec:
+  selector:
+    name: {{ .Release.Name }}-couchdb
+  ports:
+    - port: {{ .Values.db.port }}
+      name: couchdb
+{{ end }}

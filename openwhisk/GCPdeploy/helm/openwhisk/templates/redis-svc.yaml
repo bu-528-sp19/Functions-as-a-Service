@@ -1,0 +1,16 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-redis
+  labels:
+    name: {{ .Release.Name }}-redis
+{{ include "openwhisk.label_boilerplate" . | indent 4 }}
+spec:
+  selector:
+    name: {{ .Release.Name }}-redis
+  ports:
+    - port: {{ .Values.redis.port }}
+      name: redis
