@@ -195,12 +195,7 @@ public class DataLayerHelper {
         return passenger;
     }
 
-    private static String timeStamp() {
-        String FORMAT_FULL = "yyyy MM dd HH mm ss S";
-        SimpleDateFormat df = new SimpleDateFormat(FORMAT_FULL);
-        Calendar calendar = Calendar.getInstance();
-        return df.format(calendar.getTime());
-    }
+
 
     private static String generateID(char type) {
         StringBuilder sb = new StringBuilder();
@@ -246,13 +241,6 @@ public class DataLayerHelper {
         return info;
     }
 
-    private static String location2String(double[] location) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(location[0]);
-        sb.append(" ");
-        sb.append(location[1]);
-        return sb.toString();
-    }
 
     private static void generateMoveLocation(double[] location, double[] movePara) {
         location[0] += ((Math.random() > 0.5) ? 1 : -1) * Math.random() * movePara[0];
@@ -281,6 +269,8 @@ public class DataLayerHelper {
         jsonObject.put("driver_id", driver.getId());
         jsonObject.put("latitude", driver.getCurrentLocation()[0]);
         jsonObject.put("longitude", driver.getCurrentLocation()[1]);
+        jsonObject.put("des_latitude"
+        jsonObject.put("timestamp", timeStamp());
         return jsonObject.toString();
     }
 
@@ -289,8 +279,24 @@ public class DataLayerHelper {
         jsonObject.put("passenger_id", passenger.getId());
         jsonObject.put("latitude", passenger.getCurrentLocation()[0]);
         jsonObject.put("longitude", passenger.getCurrentLocation()[1]);
+        jsonObject.put("timestamp", timeStamp());
         return jsonObject.toString();
     }
 
+    /**** General methods here ****/
+    private static String location2String(double[] location) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(location[0]);
+        sb.append(" ");
+        sb.append(location[1]);
+        return sb.toString();
+    }
+
+    private static String timeStamp() {
+        String FORMAT_FULL = "yyyy MM dd HH mm ss S";
+        SimpleDateFormat df = new SimpleDateFormat(FORMAT_FULL);
+        Calendar calendar = Calendar.getInstance();
+        return df.format(calendar.getTime()) + " " + System.currentTimeMillis();
+    }
 
 }

@@ -21,9 +21,10 @@ public class DriverThread extends Thread {
                 for (Driver driver: drivers) {
                     DataLayerHelper.randomMoveDriver(driver);
                     //PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapDriverJson(driver));
-                    Thread.sleep((int)(Math.random()*5) * 1000);;
+                    Thread.sleep((int)(Math.random()*5) * 1000);
                     //System.out.println(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapDriverJson(driver)));
                     System.out.println(driver.getId());
+
                 }
             } catch (Exception e){
                 e.printStackTrace();
