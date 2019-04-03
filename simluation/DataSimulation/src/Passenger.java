@@ -6,12 +6,20 @@ public class Passenger {
     public static HashSet<String> passengerIDs = new HashSet<>();
 
     private String id;
+    private int state;
     private double[] currentLocation;
     private double[] movePara; //[lati, longi]
     private double[] destinationLocation;
-    private int state;
-    private String timeStamp;
-    private Driver assignedDriver;
+    private double[] driverLocation;
+
+    public Passenger(String id, int state, double[] currentLocation, double[] movePara, double[] destinationLocation) {
+        this.id = id;
+        this.state = state;
+        this.currentLocation = currentLocation;
+        this.movePara = movePara;
+        this.destinationLocation = destinationLocation;
+    }
+
 
     public String getId() {
         return id;
@@ -19,6 +27,14 @@ public class Passenger {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public double[] getCurrentLocation() {
@@ -45,43 +61,12 @@ public class Passenger {
         this.destinationLocation = destinationLocation;
     }
 
-    public int getState() {
-        return state;
+    public double[] getDriverLocation() {
+        return driverLocation;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setDriverLocation(double[] driverLocation) {
+        this.driverLocation = driverLocation;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public Driver getAssignedDriver() {
-        return assignedDriver;
-    }
-
-    public void setAssignedDriver(Driver assignedDriver) {
-        this.assignedDriver = assignedDriver;
-    }
-
-    public Passenger(String id, double[] currentLocation, int state, double[] movePara, double[] destinationLocation, String timeStamp, Driver assignedDriver) {
-        this.id = id;
-        this.currentLocation = currentLocation;
-        this.state = state;
-        this.movePara = movePara;
-        this.destinationLocation = destinationLocation;
-        this.timeStamp = timeStamp;
-        this.assignedDriver = assignedDriver;
-    }
-
-    public Passenger(String id, double[] currentLocation, double[] movePara) {
-        this.id = id;
-        this.currentLocation = currentLocation;
-        this.movePara = movePara;
-    }
 }
