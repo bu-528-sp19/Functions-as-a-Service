@@ -4,7 +4,7 @@ import json
 
 
 # Redis configuration
-HOST = "172.17.0.5"
+HOST = "10.35.252.107"
 # db 0: passenger, db 1: driver, db 2: geohash
 driver_db = redis.Redis(host=HOST, port=6379, db=1)
 geocode_db = redis.Redis(host=HOST, port=6379, db=2)
