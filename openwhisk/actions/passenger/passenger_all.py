@@ -1,7 +1,7 @@
 import redis
 import json
 
-HOST = "127.0.0.1"
+HOST = "172.17.0.4"
 
 def find_all_locations(params):
     # db 0: passenger, db 1: driver, db 2: geohash

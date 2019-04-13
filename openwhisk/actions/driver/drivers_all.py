@@ -1,11 +1,11 @@
 import redis
 import json
 
-HOST = "127.0.0.1"
+HOST = "192.168.99.100"
 
 def find_all_locations(params):
     # db 0: passenger, db 1: driver, db 2: geohash
-    driver_db = redis.Redis(host=HOST, port=6379, db=1)
+    driver_db = redis.Redis(host=HOST, port=31514, db=1)
 
     #find all driver locations in driver db
     try:

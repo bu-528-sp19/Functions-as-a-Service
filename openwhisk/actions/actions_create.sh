@@ -13,3 +13,7 @@ wsk -i action get updatePassenger --url
 wsk -i action create searchDriver --docker junoth/driver-service ./passenger/location/location_search.py --web true
 
 wsk -i action get searchDriver --url
+
+wsk -i action create findAllDrivers --docker junoth/driver-service ./driver/drivers_all.py --web true
+
+wsk -i action get findAllDrivers --url
