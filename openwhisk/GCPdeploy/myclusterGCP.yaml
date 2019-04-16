@@ -9,8 +9,3 @@ whisk:
 
 nginx:
  httpsNodePort: 31001 
-
-invoker:
-  containerFactory:
-    kubernetes:
-      replicaCount: 3

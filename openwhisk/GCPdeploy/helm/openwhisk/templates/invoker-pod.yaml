@@ -64,6 +64,15 @@ spec:
         command: [ "/bin/bash", "-c", "/init.sh --uniqueName $INVOKER_NAME" ]
 {{- end }}
         env:
+          - name: "METRICS_KAMON"
+            value: {{ .Values.whisk.kamon | quote }}
+
+          - name: "CONFIG_kamon_statsd_hostname"
+            value: {{ .Values.whisk.kamonStatsdHost }}
+
+          - name: "CONFIG_kamon_statsd_port"
+            value: {{ .Values.whisk.kamonStatsdPort | quote }}
+            
           - name: "PORT"
             value: {{ .Values.invoker.port | quote }}
 

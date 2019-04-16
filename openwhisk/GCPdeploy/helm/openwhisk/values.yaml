@@ -53,10 +53,10 @@ whisk:
     guest: "23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP"
   systemNameSpace: "/whisk.system"
   limits:
-    actionsInvokesPerminute: 60
-    actionsInvokesConcurrent: 30
-    triggersFiresPerminute: 60
-    actionsSequenceMaxlength: 50
+    actionsInvokesPerminute: 99999
+    actionsInvokesConcurrent: 99999
+    triggersFiresPerminute: 99999
+    actionsSequenceMaxlength: 99999
     actions:
       time:
         min: "100ms"
@@ -124,6 +124,9 @@ whisk:
       gitTag: "41f88762d9d12c7ae39642bcac5ba0cdf7c43c50"
     openwhiskPackageKafka:
       gitTag: "b563eefaf29c93dc07022ffc29ffb828b6419c4c"
+  kamon: true
+  kamonStatsdHost: "graphite.monitoring.svc.cluster.local"
+  kamonStatsdPort: 8125
 
 k8s:
   domain: cluster.local

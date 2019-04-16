@@ -56,6 +56,15 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 1
         env:
+        - name: "METRICS_KAMON"
+          value: {{ .Values.whisk.kamon | quote }}
+
+        - name: "CONFIG_kamon_statsd_hostname"
+          value: {{ .Values.whisk.kamonStatsdHost }}
+
+        - name: "CONFIG_kamon_statsd_port"
+          value: {{ .Values.whisk.kamonStatsdPort | quote }}
+        
         - name: "PORT"
           value: {{ .Values.controller.port | quote }}
 
