@@ -1,10 +1,12 @@
-import { SET_CURRENT_POS, SET_DRIVER_POS } from './types';
+import { SET_CURRENT_POS, SET_DRIVER_POS, FIND_ALL_POS } from './types';
 import axios from 'axios';
 import https from 'https';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-const apiAddress = "https://192.168.99.100:31001/api/v1/web/guest/default/searchDriver"
+const apiAddress = "https://192.168.99.100:31001/api/v1/web/guest/default/searchDriver";
+const FADAddress = "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/findAllDriver";
+const FAPAddress = "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/findAllPassenger";
 
 // set the backend api address
 
@@ -30,6 +32,45 @@ export const setDefaultPosition = () => dispatch => {
     payload: defaultPos
   })
 }
+
+export const findAllPostions = () => dispatch => {
+  // query to the backend for the posions of all locations
+  let drivers = [];
+  instance
+    .post(FADAddress)
+    .then(res => {
+      res.data.locations.forEach(location => {
+        const driverInfo = {
+          id: location.id,
+          lat: Number(location.latitude),
+          lng: 360 + Number(location.longitude)
+        };
+        drivers.push(driverInfo);
+
+        let passengers = [];
+        instance
+        .post(FAPAddress)
+        .then(res => {
+          res.data.locations.forEach(location => {
+            const passengerInfo = {
+              id: location.id,
+              lat: Number(location.latitude),
+              lng: 360 + Number(location.longitude)
+            };
+            passengers.push(passengerInfo);
+            const data = {
+              taxiCoord: drivers,
+              passengerCoord: passengers
+            }
+            dispatch({
+              type: FIND_ALL_POS,
+              payload: data
+            }); 
+          })
+        });
+      })
+    });
+} 
 
 // set the position
 export const setPosition = (data) => dispatch => {

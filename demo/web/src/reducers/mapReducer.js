@@ -1,10 +1,11 @@
-import { SET_CURRENT_POS, SET_DRIVER_POS } from '../actions/types';
+import { SET_CURRENT_POS, SET_DRIVER_POS, FIND_ALL_POS } from '../actions/types';
 
 const initialState = {
   center: {},
   zoom: 14,
   yourCoord: {},
-  taxiCoord: []
+  taxiCoord: [],
+  passengerCoord: []
 };
 
 export default function(state = initialState, action) {
@@ -21,6 +22,12 @@ export default function(state = initialState, action) {
         ...state,
         taxiCoord: action.payload
       };
+    case FIND_ALL_POS:
+      return {
+        ...state,
+        taxiCoord: action.payload.taxiCoord,
+        passengerCoord: action.payload.passengerCoord
+      }
     default:
       return state;
   }

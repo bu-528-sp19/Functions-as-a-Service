@@ -26,11 +26,95 @@ public class DataLayerHelper {
     // in this simulation, driver speed would be 11m/s, equals to 1e-4 lati/s, equals to 1e-4/cos(latitude) longitude/s
     // basic simulation: passenger 42.3508011,-71.1399532 -> driver 42.3493101,-71.1075554->destination:42.3515459,-71.0664048
 
-    public static void randomMoveDriver(Driver driver) {
 
+    public static void updatePassenger(Passenger passenger, JSONObject jsonObject) {
+        int selfState = passenger.getState();
+        int remoteState = jsonObject.getInt("update");
+        double[] locationInfo = string2Location(jsonObject.getString("location"));
+
+        switch (selfState) {
+            case 0:
+                break;
+            case 1:
+                if (remoteState == 1) {
+                    randomMovePassenger(passenger);
+                } else if (remoteState == 2) {
+                    passenger.setState(2);
+                    passenger.setCurrentLocation(locationInfo);
+                }
+                break;
+            case 2:
+                if (remoteState == 2) {
+                    passenger.setDriverLocation(locationInfo);
+                } else if (remoteState == 3) {
+                    passenger.setState(3);
+                    passenger.setCurrentLocation(locationInfo);
+                    passenger.setDriverLocation(locationInfo);
+                }
+                break;
+            case 3:
+                if (remoteState == 3) {
+                    passenger.setCurrentLocation(locationInfo);
+                    passenger.setDriverLocation(locationInfo);
+                } else if (remoteState == 4) {
+                    Passenger.passengerIDs.remove(passenger.getId());
+                    Passenger.passengerList.remove(passenger);
+                }
+                break;
+        }
+    }
+
+    public static void updateDriver(Driver driver, JSONObject jsonObject) {
+        int selfState = driver.getState();
+        int remoteState = jsonObject.getInt("update");
+        double[] locationInfo = string2Location(jsonObject.getString("location"));
+
+        switch (selfState) {
+            case 1:
+                if (remoteState == 1) {
+                    randomMoveDriver(driver);
+                } else if (remoteState == 2) {
+                    driver.setState(2);
+                    driver.setDestiLocation(locationInfo);
+                }
+                break;
+            case 2:
+                if (remoteState == 2) {
+                    driver.setDestiLocation(locationInfo);
+                    destiMoveDriver(driver, string2Location(jsonObject.getString("location")));
+                }
+                break;
+            case 3:
+                if (remoteState == 3) {
+                    driver.setDestiLocation(locationInfo);
+                    destiMoveDriver(driver, string2Location(jsonObject.getString("location")));
+                }
+                break;
+            case 4:
+                if (remoteState == 4) {
+                    driver.setDestiLocation(null);
+                    driver.setState(1);
+                }
+        }
+
+    }
+
+    public static void randomMoveDriver(Driver driver) {
         double[] currentLocation = driver.getCurrentLocation();
         double[] movePara = driver.getMovePara();
         generateMoveLocation(currentLocation, movePara);
+    }
+
+    public static void destiMoveDriver(Driver driver, double[] destiLocation) {
+        double[] moveLength = driver.getMovePara();
+        double[] moveResult = new double[2];
+        double[] currentLocation = driver.getCurrentLocation();
+
+        for (int i = 0; i < 2; i++) {
+            moveResult[i] = Math.abs(destiLocation[i]-currentLocation[i]) < moveLength[i] ? destiLocation[i] : currentLocation[i] + ((currentLocation[i] < destiLocation[i]) ? 1 : -1) * moveLength[i];
+        }
+        driver.setCurrentLocation(moveResult);
+        if (moveResult[0] == destiLocation[0] && moveResult[1] == destiLocation[1]) driver.setState(driver.getState()+1);
     }
 
     public static void randomMovePassenger(Passenger passenger) {
@@ -40,7 +124,7 @@ public class DataLayerHelper {
     }
 
 
-    public static void packDP(Driver driver, Passenger passenger) {
+/*    public static void packDP(Driver driver, Passenger passenger) {
         // add driver to passenger
         System.out.println((driver == null) + "" + passenger == null);
         passenger.setAssignedDriver(driver);
@@ -86,7 +170,7 @@ public class DataLayerHelper {
                 currentLocation[0] += ((currentLocation[0] > currentDestination[0]) ? -1 : 1) * selfPara[0];
             }
         } else if (currentDestination[1] != currentLocation[1]) {
-            //System.out.println(currentDestination[1] + " " + currentLocation[1] + " " + selfPara[1]);
+            System.out.println(currentDestination[1] + " " + currentLocation[1] + " " + selfPara[1]);
             if (Math.abs(currentLocation[1] - currentDestination[1]) < selfPara[1]) {
                 currentLocation[1] = currentDestination[1];
             } else {
@@ -110,41 +194,16 @@ public class DataLayerHelper {
                 System.out.println("No driver assigned");
             }
         }
-    }
+    }*/
 
 
 
-    public static String generateDriverID() {
-        String resultID = DataLayerHelper.generateID('D');
-        while (Driver.driverIDs.contains(resultID)) {
-            resultID = DataLayerHelper.generateID('D');
-        }
-        return resultID;
-    }
 
-    public static String generatePassengerID() {
-        String resultID = DataLayerHelper.generateID('P');
-        while (Passenger.passengerIDs.contains(resultID)) {
-            resultID = DataLayerHelper.generateID('P');
-        }
-        return resultID;
-    }
 
-    public static Driver searchDriver(String id) {
-        for (Driver driver : Driver.driverList) {
-            if (driver.getId().equals(id)) return driver;
-        }
-        return null;
-    }
 
-    public static Passenger searchPassenger(String id) {
-        for (Passenger passenger : Passenger.passengerList) {
-            if (passenger.getId().equals(id)) return passenger;
-        }
-        return null;
-    }
 
-    public static Driver createDraftDriver() {
+
+/*    public static Driver createDraftDriver() {
         String driverID = generateDriverID();
         //double[] location = {42.3508011,-71.1399532};
         double[] selfLocation = generateRandomLocation();
@@ -166,7 +225,7 @@ public class DataLayerHelper {
         Passenger.passengerIDs.add(passengerID);
         //RedisHelper.addNewPassenger(passengerID);
         return passenger;
-    }
+    }*/
 
     public static Driver createNewDriver() {
         String driverID = generateDriverID();
@@ -175,10 +234,9 @@ public class DataLayerHelper {
         double[] pasLocation = NULL_LOCATION;
         double[] destiLocation = NULL_LOCATION;
         double[] movePara = {1e-4, Math.abs(1e-4 / Math.cos(selfLocation[0]))};
-        Driver driver = new Driver(driverID, selfLocation, 1, movePara, pasLocation, destiLocation, timeStamp(), null);
-        Driver.getDriverList().add(driver);
-        Driver.getDriverIDs().add(driverID);
-        RedisHelper.addNewDriver(driverID);
+        Driver driver = new Driver(driverID, 1, selfLocation, movePara);
+        Driver.driverList.add(driver);
+        Driver.driverIDs.add(driverID);
         return driver;
     }
 
@@ -188,25 +246,16 @@ public class DataLayerHelper {
         double[] selfLocation = {42.3493101,-71.1075554};
         double[] destiLocation = {42.3515459,-71.0664048};
         double[] movePara = {8.4e-6, Math.abs(8.4e-6 / Math.cos(selfLocation[0]))};
-        Passenger passenger = new Passenger(passengerID, selfLocation, 1, movePara, destiLocation, timeStamp(), null);
+        Passenger passenger = new Passenger(passengerID, 0, selfLocation, movePara, destiLocation);
         Passenger.passengerList.add(passenger);
         Passenger.passengerIDs.add(passengerID);
-        RedisHelper.addNewPassenger(passengerID);
         return passenger;
     }
 
 
 
-    private static String generateID(char type) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(type);
-        for (int i = 0; i < 15; i++) {
-            sb.append(CANDIDATE_CHARS[(int)(Math.random()*(CANDIDATE_CHARS.length-1))]);
-        }
-        return sb.toString();
-    }
 
-    public static Map<String, String> generateDraftDriverMap(Driver driver) {
+/*    public static Map<String, String> generateDraftDriverMap(Driver driver) {
         Map<String, String> info = new HashMap<>();
         info.put("current_location", location2String(driver.getCurrentLocation()));
         return info;
@@ -226,7 +275,6 @@ public class DataLayerHelper {
         info.put("pass_id", hasPas ? driver.getAssignedPassenger().getId() : "nan");
         info.put("pass_location", (hasPas ? location2String(driver.getAssignedPassenger().getCurrentLocation()) : location2String(NULL_LOCATION)));
         info.put("pass_destination", (hasPas ? location2String(driver.getAssignedPassenger().getDestinationLocation()) : location2String(NULL_LOCATION)));
-        info.put("time_info", driver.getTimeStamp());
         return info;
     }
 
@@ -239,7 +287,101 @@ public class DataLayerHelper {
         info.put("destination", location2String(passenger.getDestinationLocation()));
         info.put("time_info", passenger.getTimeStamp());
         return info;
+    }*/
+
+
+
+
+    /***********************************************************************************
+     ***************   Supplement methods here *****************************************
+     **********************************************************************************/
+
+    private static String location2String(double[] location) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(location[0]);
+        sb.append(" ");
+        sb.append(location[1]);
+        return sb.toString();
     }
+
+    private static double[] string2Location(String s) {
+        double[] result = new double[2];
+        String[] temp = s.split(" ");
+        result[0] = Double.parseDouble(temp[0]);
+        result[1] = Double.parseDouble(temp[1]);
+        return result;
+    }
+
+    private static String timeStamp() {
+        String FORMAT_FULL = "yyyy MM dd HH mm ss S";
+        SimpleDateFormat df = new SimpleDateFormat(FORMAT_FULL);
+        Calendar calendar = Calendar.getInstance();
+        return df.format(calendar.getTime()) + " " + System.currentTimeMillis();
+    }
+
+    private static String generateID(char type) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type);
+        for (int i = 0; i < 15; i++) {
+            sb.append(CANDIDATE_CHARS[(int)(Math.random()*(CANDIDATE_CHARS.length-1))]);
+        }
+        return sb.toString();
+    }
+
+
+    public static String generateDriverID() {
+        String resultID = DataLayerHelper.generateID('D');
+        while (Driver.driverIDs.contains(resultID)) {
+            resultID = DataLayerHelper.generateID('D');
+        }
+        return resultID;
+    }
+
+    public static String generatePassengerID() {
+        String resultID = DataLayerHelper.generateID('P');
+        while (Passenger.passengerIDs.contains(resultID)) {
+            resultID = DataLayerHelper.generateID('P');
+        }
+        return resultID;
+    }
+
+    public static String wrapDriverJson(Driver driver) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("driver_id", driver.getId());
+        jsonObject.put("latitude", driver.getCurrentLocation()[0]);
+        jsonObject.put("longitude", driver.getCurrentLocation()[1]);
+        jsonObject.put("state", driver.getState());
+        return jsonObject.toString();
+    }
+
+    public static String wrapPassengerJson(Passenger passenger) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("passenger_id", passenger.getId());
+        jsonObject.put("latitude", passenger.getCurrentLocation()[0]);
+        jsonObject.put("longitude", passenger.getCurrentLocation()[1]);
+        jsonObject.put("state", passenger.getState());
+        return jsonObject.toString();
+    }
+
+    public static Driver searchDriver(String id) {
+        for (Driver driver : Driver.driverList) {
+            if (driver.getId().equals(id)) return driver;
+        }
+        return null;
+    }
+
+    public static Passenger searchPassenger(String id) {
+        for (Passenger passenger : Passenger.passengerList) {
+            if (passenger.getId().equals(id)) return passenger;
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        double[] test = string2Location("42.3259015 -71.0797181");
+        System.out.println(test[0] + "  " + test[1]);
+    }
+
 
 
     private static void generateMoveLocation(double[] location, double[] movePara) {
@@ -258,45 +400,10 @@ public class DataLayerHelper {
         double longiDistance = TOPRIGHT[1] - BOTTOMLEFT[1];
 
         double[] location = {(BOTTOMLEFT[0] + (Math.random()*latiDistance)), (BOTTOMLEFT[1] + (Math.random()*longiDistance))};
-        //System.out.println(location[0]);
 
         return location;
 
     }
 
-    public static String wrapDriverJson(Driver driver) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("driver_id", driver.getId());
-        jsonObject.put("latitude", driver.getCurrentLocation()[0]);
-        jsonObject.put("longitude", driver.getCurrentLocation()[1]);
-        jsonObject.put("des_latitude"
-        jsonObject.put("timestamp", timeStamp());
-        return jsonObject.toString();
-    }
-
-    public static String wrapPassengerJson(Passenger passenger) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("passenger_id", passenger.getId());
-        jsonObject.put("latitude", passenger.getCurrentLocation()[0]);
-        jsonObject.put("longitude", passenger.getCurrentLocation()[1]);
-        jsonObject.put("timestamp", timeStamp());
-        return jsonObject.toString();
-    }
-
-    /**** General methods here ****/
-    private static String location2String(double[] location) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(location[0]);
-        sb.append(" ");
-        sb.append(location[1]);
-        return sb.toString();
-    }
-
-    private static String timeStamp() {
-        String FORMAT_FULL = "yyyy MM dd HH mm ss S";
-        SimpleDateFormat df = new SimpleDateFormat(FORMAT_FULL);
-        Calendar calendar = Calendar.getInstance();
-        return df.format(calendar.getTime()) + " " + System.currentTimeMillis();
-    }
 
 }
