@@ -11,7 +11,7 @@ import java.security.cert.X509Certificate;
 //import org.json.JSONObject;
 
 public class LatencyTest {
-    public static void main(String[] args){
+    public static void main(String[] args) throws java.io.IOException{
         System.out.println("Try to measuer the Latency for this simple post program");
 
         //measuring gap
@@ -33,7 +33,7 @@ public class LatencyTest {
         String input = "{\"name\": \"World\"}";
 
         //continue version for test
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             long startTime = System.currentTimeMillis();
             String result = ph.sendPost(url, input);
             long intervalTime = System.currentTimeMillis() - startTime;
@@ -43,19 +43,43 @@ public class LatencyTest {
         }
 
         //timer version
+
+
+
+
+        //FileWriter writer = new FileWriter("./record.csv");
+        //writer.append("aaa");
         Timer timer = new Timer();
         List<Integer> times = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
+        //double average = 0;
         timer.schedule(new TimerTask() {
             @Override
-            public void run() {
-                long startTime = System.currentTimeMillis();
-                String result = ph.sendPost(url, input);
-                long intervalTime = System.currentTimeMillis() - startTime;
-                times.add((int)intervalTime);
-                System.out.println("Time lapse is: " + intervalTime);
+            public void run(){
+                try {
+                    double average = 0;
+                    long startTime = System.currentTimeMillis();
+                    String result = ph.sendPost(url, input);
+                    long intervalTime = System.currentTimeMillis() - startTime;
+                    times.add((int) intervalTime);
+
+                    for (int i = 1; i <= 10 && i < times.size(); i++){
+                        average += times.get(times.size()-i) / (double)(Math.min(10, times.size()));
+                    }
+
+                    FileWriter writer = new FileWriter("./record.csv", true);
+                    writer.append(String.valueOf(intervalTime));
+                    writer.append(",");
+                    System.out.println("Latency is " + intervalTime + " Average is " + average);
+                    writer.close();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
 
             }
-        },1000, 1000 * measureGapInSecond);
+        }, 1000, 1000 * measureGapInSecond);
+        //writer.close();
 
 
 
