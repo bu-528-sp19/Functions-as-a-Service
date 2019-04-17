@@ -6,7 +6,7 @@ import json
 # Redis configuration
 HOST = "172.17.0.5"
 # db 0: passenger, db 1: driver, db 2: geohash
-driver_db = redis.Redis(host=HOST, port=6379, db=0)
+info_db = redis.Redis(host=HOST, port=6379, db=0)
 location_db = redis.Redis(host=HOST, port=6379, db=2)
 geocode_db = redis.Redis(host=HOST, port=6379, db=4)
 
@@ -60,7 +60,7 @@ def main(params):
 
     isValid, errors = validate(info)
 
-    # if the input is valid, update the driver database and geocode database   
+    # if the input is valid, update the driver database and geocode database
     if isValid:
         # convert the latitude and longitude to geocode
         geocode = geohash.encode(float(info['latitude']), float(info['longitude']), 7)
@@ -93,11 +93,15 @@ def main(params):
     else:
         statusCode = 403
         res = json.dumps({"result": errors})
-        
+
     return {
         "headers": {
             "Content-Type": "application/json"
         },
         "statusCode": statusCode,
-        "body": res 
+        "body": res
     }
+
+
+def info_update(params):
+    if driver_db.

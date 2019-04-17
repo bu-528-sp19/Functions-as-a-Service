@@ -23,7 +23,7 @@ class PassengerRunnable implements Runnable {
             }
             for (Passenger passenger: passengers) {
                 DataLayerHelper.randomMovePassenger(passenger);
-                System.out.println(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
+                System.out.println(PostHelper.sendPost(DataLayerHelper.UPDATE_PASSENGER_LINK, DataLayerHelper.wrapPassengerJson(passenger)));
             }
             try {
                 Thread.sleep(500);

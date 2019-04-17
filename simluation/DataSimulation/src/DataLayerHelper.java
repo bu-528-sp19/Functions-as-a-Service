@@ -17,8 +17,10 @@ public class DataLayerHelper {
     private static final double[] NULL_LOCATION = {-1,-1};
     private static final double[] BOTTOMLEFT = {42.3259015,-71.0797181};
     private static final double[] TOPRIGHT = {42.3863267,-71.0234668};
-    public static final String UPDATE_DRIVER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updateDriver";
-    public static final String UPDATE_PASSENGER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updatePassenger";
+    //public static final String UPDATE_DRIVER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updateDriver";
+    public static final String UPDATE_DRIVER_LINK = "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/updateDriver";
+    //public static final String UPDATE_PASSENGER_LINK = "https://192.168.99.100:31001/api/v1/web/guest/default/updatePassenger";
+    public static final String UPDATE_PASSENGER_LINK = "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/updatePassenger";
     public static final String POST_TEST_LINK = "https://www.baidu.com";
 
 
@@ -142,7 +144,7 @@ public class DataLayerHelper {
         driver.setAssignedPassenger(null);
         driver.setDestinationLocation(NULL_LOCATION);
         driver.setPassengerLocation(NULL_LOCATION);
-        driver.setState(1);
+        driver.setState(1);r
     }
 
     private static void passenger2Idle(Passenger passenger) {
@@ -229,10 +231,7 @@ public class DataLayerHelper {
 
     public static Driver createNewDriver() {
         String driverID = generateDriverID();
-        //double[] location = {42.3508011,-71.1399532};
-        double[] selfLocation = {42.3508011,-71.1399532};
-        double[] pasLocation = NULL_LOCATION;
-        double[] destiLocation = NULL_LOCATION;
+        double[] selfLocation = generateRandomLocation();
         double[] movePara = {1e-4, Math.abs(1e-4 / Math.cos(selfLocation[0]))};
         Driver driver = new Driver(driverID, 1, selfLocation, movePara);
         Driver.driverList.add(driver);
@@ -243,8 +242,8 @@ public class DataLayerHelper {
     public static Passenger createNewPassenger() {
         String passengerID = generatePassengerID();
         //double[] location = {42.3508011,-71.1399532};
-        double[] selfLocation = {42.3493101,-71.1075554};
-        double[] destiLocation = {42.3515459,-71.0664048};
+        double[] selfLocation = generateRandomLocation();
+        double[] destiLocation = generateRandomLocation();
         double[] movePara = {8.4e-6, Math.abs(8.4e-6 / Math.cos(selfLocation[0]))};
         Passenger passenger = new Passenger(passengerID, 0, selfLocation, movePara, destiLocation);
         Passenger.passengerList.add(passenger);

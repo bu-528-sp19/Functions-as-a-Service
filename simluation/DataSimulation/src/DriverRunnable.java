@@ -28,8 +28,9 @@ class DriverRunnable implements Runnable {
                 try {
                     DataLayerHelper.randomMoveDriver(driver);
                     JSONObject tempJson = new
-                            JSONObject(PostHelper.sendPost(DataLayerHelper.POST_TEST_LINK, DataLayerHelper.wrapDriverJson(driver)));
-                    System.out.println(tempJson.getString("content"));
+                            JSONObject(PostHelper.sendPost(DataLayerHelper.UPDATE_DRIVER_LINK, DataLayerHelper.wrapDriverJson(driver)));
+                    //System.out.println(tempJson.getString("content"));
+                    System.out.println(tempJson.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

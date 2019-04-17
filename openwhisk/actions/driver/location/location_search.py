@@ -49,14 +49,17 @@ def main(params):
     info = {
         "id": params.get("driver_id", ""),
         "latitude": params.get("latitude", ""),
-        "longitude": params.get("longitude", "")
+        "longitude": params.get("longitude", ""),
+        "state": params.get("state",""),
+        "des_latitude": params.get("des_latitude",""),
+        "des_longitude": param.get("des_longitude","")
     }
 
     isValid, errors = validate(info)
 
     if isValid:
         # convert the latitude and longitude to geocode
-        geocode = geohash.encode(float(info['latitude']), float(info['longitude']), 5)
+        geocode = geohash.encode(float(info['latitude']), float(info['longitude']), 7)
 
         qualified_list = []
         try:
