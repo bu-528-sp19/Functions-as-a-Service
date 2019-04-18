@@ -11,7 +11,7 @@ import {findAllPostions} from './actions/mapActions';
 class Map extends Component {
 
   componentWillMount() {
-    this.timer = setInterval(() => this.props.findAllPostions(), 1000);
+    this.timer = setInterval(() => this.props.findAllPostions(), 8000);
   }
 
   componentWillReceiveProps(nextProps) {

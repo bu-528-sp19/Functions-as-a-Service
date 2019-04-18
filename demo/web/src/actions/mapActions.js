@@ -74,7 +74,7 @@ export const findAllPostions = () => dispatch => {
 
 // set the position
 export const setPosition = (data) => dispatch => {
-  
+
   // query to the backend for the positions of taxi drivers around
   const query_data = {
     passenger_id: "P123S2",

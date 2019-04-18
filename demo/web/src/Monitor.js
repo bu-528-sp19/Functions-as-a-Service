@@ -6,7 +6,7 @@ export default class Monitor extends Component {
   render() {
     return (
       <div className="monitor">
-        <div className="container-fluid px-0" id="main">
+        <div className="container px-0" id="main">
           <div className="row">
             <div className="col-md-12">
               < Map />

@@ -20,7 +20,7 @@ public class Main {
             passenger.start();
         }*/
 
-        ExecutorService pool = Executors.newFixedThreadPool(1);
+        ExecutorService pool = Executors.newCachedThreadPool();
         //pool.submit(new PassengerRunnable(10, 5));
         pool.submit(new DriverRunnable(10, 2));
     }
