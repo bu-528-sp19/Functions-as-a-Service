@@ -3,14 +3,9 @@
 ## 1.   Vision and Goals Of The Project:
 
 The goals of our project can be summarized as two parts: <br>
-* Firstly, we want to build a mobile application whose scenario can leverage the strength of FaaS. For this app, the computing requirement for OpenWhisk is dynamic and may have high variance for a very short time. <br>
-* Secondly, we also want to see the performance of FaaS when it exercises with dynamic amounts of load. We may also go deep into the OpenWhisk’s source code to evaluate the benchmark of the system.<br>
+* Firstly, we want to build an application whose scenario can leverage the strength of FaaS. For this app, we wish to simulate a driver - passenger system. Passengers will send request to call for a taxi, and drivers will pair with passengers and pick passengers up to the destination.  <br>
+* Secondly, we also want to see the performance of Openwhisk and FaaS when it exercises with dynamic amounts of load. We want o to use the simulation as a tool, to analyze and benchmark the performance of Openwhisk. More specifically, we want to observe and benchmark how Openwhisk distribute load when there are huge amount of requests, and the amount of the requests are changing rapidly. <br>
 
-Our final product would be an application that assists taxi taking process, it receives real time data of drivers and passengers. Considering some regular events such as rush hour, and some sudden events such as a heavy rain or the end of an activity for a specific area, all those conditions will lead to a significant variance of the taxi requirement. Therefore, the scenario is obviously suitable for FaaS. <br>
-
-The functions covered by application can be divided into two layers: <br>
-* The application will directly read the location data of passengers and drivers and provide users a hot spot map to directly show the distribution. <br>
-* The application will recommend the location that is most likely to make a deal for both passengers and drivers, that would be a trade-off between distance and probability. <br>
 
 ** **
 ## 2. Users/Personas Of The Project:
@@ -21,24 +16,19 @@ Application End User: <br>
 * Drivers: Most functions are same with the passengers’ side, but considering higher movement flexibility comparing with passengers, the suggesting algorithm would be different for drivers. <br><br>
 
 System Researcher: <br>
-* We will start from using historical knowledge, which would give us high freedom to simulate some extreme conditions that maximize the performance of FaaS when testing the application, the system researchers can use it to further evaluate the characteristics of FaaS platform. <br>    
+* We will start from using historical knowledge, which would give us high freedom to simulate some extreme conditions that maximize the performance of FaaS when testing the application, the system researchers can use it to further benchmark and analyze the characteristics of FaaS platform. <br>    
 
 ** **
 
 ## 3.   Scope and Features Of The Project:
 
-The project aims to implement FaaS for taxi data analysis, which includes taxi route real time capture, taxi routes density analysis, passenger population flow map, and taxi driver route recommendation upon emergency or sudden events. In summary, the FaaS would serve as a tool to give thorough real time analysis on taxi running status, and to give special recommendations during emergency or sudden events. <br><br>
+The project aims to implement FaaS for taxi driver passenger system data analysis, which includes a frontend webpage to gather passenger - driver information, and a presenting mechanism to add, update and present the locations of each driver and passenger. Last, a pairing process will be made to pair drivers and passenger by their requests. 
 
-<div align="center">
-<img src="./images/stages.png" width="80%" height="80%">
-</div>
+The second part is the benchmark for Openwhisk. The project will monitor and analyze the metrics of Openwhisk. Including the activation count, cold start count for invokers/controllers, and the latency test result.
 
-The project contains 3 stages: <br>
-* 1st Stage: implement FaaS for taxi driver static data. In this stage, the FaaS would deal with historical chunk of taxi data. The data would include basic information including passenger pick up position, passenger drop off position position, pick up time, drop off time etc. Based on these data, a taxi flow heat map will be generated. Furthermore, the population flow of different time and location would also be shown. <br>
-* 2nd Stage: In this stage, the FaaS would deal with real time data. Each taxi’s real time information will be collected and analyzed by the service. In this stage high throughput real time data would be monitored and analyzed, taking the advantage of cloud platform. <br>
-* 3rd Stage: To fully utilize the characteristics of FaaS, huge data size changes in the data stream will be considered. In this stage, sudden changes in the taxi-passenger system is considered. Two example features would be implemented. 1, When there is a sudden event happening at a certain spot, i.e a concert or game. During this time all the passengers would be traveling from one place to another specific place. 2, When there is a huge rain, a huge amount of passengers would emerge asking for taxis. During these events, a sudden change in the data stream would occur, and the FaaS would deal with these circumstances: make recommendations locations to drivers, and even allocate different drivers to certain areas to meet the demand.<br> 
+For the simulation part, the application would provid a web application for monitoring positions of drivers and passengers, and also save driver/passenger information on Redis.
 
-Our overall goal is to set up a FaaS for elastic volume data with data flow information. The taxi-passenger system serves as a good example of monitoring the trace of the movement of single data point. Moreover, in the 3rd stage, sudden events would bring elastic demand for the system, which utilize our FaaS system, and also lead to a meaningful real world case problem.
+For the benchmark part, Metrics of Openwhisk will be presented and analyzed. Especially when multiple programs are running and sending requests to Openwhisk.
 
 ** **
 
@@ -77,39 +67,38 @@ Helm is a tool for managing Kubernetes charts, while charts are packages of pre-
 ## 5. Acceptance criteria
 
 This FaaS application could:  
-1. Store and present real-time taxi trip data on websites or mobile application.  
-2. Show how many trips passed through georect defined by two latitude/longitude points.  
-3. Show how many trips were occurring at a given point in time.  
-4. Show how many trips started or stopped within a georect, and the sum total of their fares.  
-5. Pair the customers and drivers for a trip.  
+1. Build a simulation applicatoin for driver-passenger system: store and present real-time taxi trip data on websites or mobile application.  
+2. Set up a mechanism to benchmark Openwhisk: to monitor and analyze performance of Openwhisk when multiple requests are made.
 
 
  ** **
 
 ## 6.  Release Planning:
 
-Iteration1(Due to 2.14):  
-1. set up one-node Kubernetes Cluster on our own computers.  
-2. deploy OpenWhisk over Kubernetes.  
-3. Automated the installation and deployment of OpenWhisk.  
-4. Provide a demo to test the OpenWhisk.  
+Sprint 1 (Due to 2.14):  
+1. Familarize with Openwhisk and Serverless Computing
+2. Deploy OpenWhisk on Minikube on Mac/Linux 
+3. Provide a demo to test the OpenWhisk.  
 
-Iteration2(Due to 2.28):  
+Sprint 2 (Due to 2.28):  
 1. implement our first feature: store data from resources to DB.  
 2. implement a front-end to present data stored in DB.  
 
-Iteration3(Due to 3.21):  
-1. implement a program to mimic the behaviors of taxi drivers and customers.  
-2. test based on demo2.  
-3. explore & develope more features.  
+Sprint 3(Due to 3.21):  
+1. implement a simulation program to mimic the behaviors of taxi drivers and customers.  
+2. implement a frontend web application to show the locations of drivers and passengers.
+3. Benchmark monitoring for local distrubtion of Openwhisk on minikube
+4. Set up Openwhisk on Google Cloud Platform(GCP)
 
-Iteration4(Due to 4.04):  
-1. explore & develope more features.  
-...  
+Sprint 4(Due to 4.04):  
+1. Set up all previous demo/programs on GCP
+2. Benchmark the performance of GCP using single invoker
+3. Update simulation of passenger and drivers
 
-Iteration5(Due to 4.18):  
-1. scale up Kubernetes to multiple nodes.  
-2. move service from local computer to public cloud providers.  
+Sprint 5(Due to 4.18):  
+1. Set up two invokers on GCP  
+2. Implement Latency test.
+3. Monitor and analyze metrics of multiple programs sending requests to GCP  
 
 
 ---
