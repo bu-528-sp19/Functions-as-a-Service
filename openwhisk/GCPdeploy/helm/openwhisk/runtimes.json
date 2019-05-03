@@ -1,0 +1,141 @@
+{
+    "runtimes": {
+        "nodejs": [
+            {
+                "kind": "nodejs:6",
+                "default": true,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "nodejs6action",
+                    "tag": "b99d71e"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                },
+                "stemCells": [
+                    {
+                        "count": 2,
+                        "memory": "256 MB"
+                    }
+                ]
+            },
+            {
+                "kind": "nodejs:8",
+                "default": false,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "action-nodejs-v8",
+                    "tag": "b99d71e"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                }
+            },
+            {
+                "kind": "nodejs:10",
+                "default": false,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "action-nodejs-v10",
+                    "tag": "b99d71e"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                }
+            }
+        ],
+        "python": [
+            {
+                "kind": "python:2",
+                "default": false,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "python2action",
+                    "tag": "d6a8920"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                }
+            },
+            {
+                "kind": "python:3",
+                "default": true,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "python3action",
+                    "tag": "d6a8920"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                }
+            }
+        ],
+        "java": [
+            {
+                "kind": "java",
+                "default": true,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "java8action",
+                    "tag": "7290453"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "jarfile",
+                    "attachmentType": "application/java-archive"
+                },
+                "requireMain": true
+            }
+        ],
+        
+        "go": [
+            {
+                "kind": "go:1.11",
+                "default": true,
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                },
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "actionloop-golang-v1.11",
+                    "tag": "d787163"
+                }
+            }
+        ],
+        "ballerina": [
+            {
+                "kind": "ballerina:0.990",
+                "default": true,
+                "image": {
+                    "prefix": "openwhisk",
+                    "name": "action-ballerina-v0.990.2",
+                    "tag": "0f7df9c"
+                },
+                "deprecated": false,
+                "attached": {
+                    "attachmentName": "codefile",
+                    "attachmentType": "text/plain"
+                }
+            }
+        ]
+    },
+    "blackboxes": [
+        {
+            "prefix": "openwhisk",
+            "name": "dockerskeleton",
+            "tag": "13361f9"
+        }
+    ]
+}

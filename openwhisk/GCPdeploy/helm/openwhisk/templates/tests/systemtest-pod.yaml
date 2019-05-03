@@ -1,0 +1,43 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+{{- if .Values.whisk.testing.includeSystemTests }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-tests-systemtest
+  labels:
+    name: {{ .Release.Name }}-tests-systemtest
+    ow-testpod: "true"
+{{ include "openwhisk.label_boilerplate" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  restartPolicy: Never
+  volumes:
+  - name: task-dir
+    configMap:
+      name: {{ .Release.Name }}-tests-systemtest
+  containers:
+  - name: systemtest
+    image: "{{- .Values.utility.imageName -}}:{{- .Values.utility.imageTag -}}"
+    imagePullPolicy: {{ .Values.utility.imagePullPolicy | quote }}
+    command: ["/bin/bash", "/task/myTask.sh"]
+    volumeMounts:
+    - name: task-dir
+      mountPath: "/task/myTask.sh"
+      subPath: "myTask.sh"
+    env:
+      - name: "WSK_AUTH"
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Release.Name }}-whisk.auth
+            key: guest
+      - name: "WSK_API_HOST_URL"
+        valueFrom:
+          configMapKeyRef:
+            name: {{ .Release.Name }}-whisk.config
+            key: whisk_api_host_url
+      - name: "OW_GIT_TAG_OPENWHISK"
+        value: {{ .Values.whisk.versions.openwhisk.gitTag | quote }}
+{{- end }}

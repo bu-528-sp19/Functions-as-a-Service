@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "66a56a96-6eb0-4c94-96d9-c9a82a9ad548",
+		"name": "openwhisk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "update_driver",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "driver_id",
+							"value": "D12517366",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "71.000001",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "41.0000002",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/updateDriver",
+					"protocol": "https",
+					"host": [
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
+					],
+					"port": "31001",
+					"path": [
+						"api",
+						"v1",
+						"web",
+						"guest",
+						"default",
+						"updateDriver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search_passenger",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "driver_id",
+							"value": "D87979099",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "71",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "41",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/searchPassenger",
+					"protocol": "https",
+					"host": [
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
+					],
+					"port": "31001",
+					"path": [
+						"api",
+						"v1",
+						"web",
+						"guest",
+						"default",
+						"searchPassenger"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_passenger",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "passenger_id",
+							"value": "P87216370",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "71.0000009",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "41.000001",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/updatePassenger",
+					"protocol": "https",
+					"host": [
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
+					],
+					"port": "31001",
+					"path": [
+						"api",
+						"v1",
+						"web",
+						"guest",
+						"default",
+						"updatePassenger"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search_driver",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "passenger_id",
+							"value": "P8721638",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "71",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "41",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/searchDriver",
+					"protocol": "https",
+					"host": [
+						"openwhisk",
+						"faas",
+						"compulty",
+						"com"
+					],
+					"port": "31001",
+					"path": [
+						"api",
+						"v1",
+						"web",
+						"guest",
+						"default",
+						"searchDriver"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

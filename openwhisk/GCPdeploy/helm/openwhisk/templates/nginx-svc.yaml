@@ -1,0 +1,26 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-nginx
+  labels:
+    name: {{ .Release.Name }}-nginx
+{{ include "openwhisk.label_boilerplate" . | indent 4 }}
+spec:
+  {{- if eq .Values.whisk.ingress.type "LoadBalancer" }}
+  type: LoadBalancer
+  {{- else if eq .Values.whisk.ingress.type "NodePort" }}
+  type: NodePort
+  {{- end }}
+  selector:
+    name: {{ .Release.Name }}-nginx
+  ports:
+    - port: {{ .Values.nginx.httpPort }}
+      name: http
+    - port: {{ .Values.nginx.httpsPort }}
+      {{- if eq .Values.whisk.ingress.type "NodePort" }}
+      nodePort: {{ .Values.nginx.httpsNodePort }}
+      {{- end }}
+      name: https-api

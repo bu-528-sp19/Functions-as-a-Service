@@ -1,0 +1,56 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more contributor
+# license agreements; and to You under the Apache License, Version 2.0.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-nginx
+  labels:
+    name: {{ .Release.Name }}-nginx
+{{ include "openwhisk.label_boilerplate" . | indent 4 }}
+spec:
+  replicas: {{ .Values.nginx.replicaCount }}
+  selector:
+    matchLabels:
+      name: {{ .Release.Name }}-nginx
+  template:
+    metadata:
+      labels:
+        name: {{ .Release.Name }}-nginx
+{{ include "openwhisk.label_boilerplate" . | indent 8 }}
+    spec:
+      restartPolicy: {{ .Values.nginx.restartPolicy }}
+
+      {{- if .Values.affinity.enabled }}
+      affinity:
+{{ include "openwhisk.affinity.edge" . | indent 8 }}
+{{ include "openwhisk.affinity.selfAntiAffinity" ( printf "%s-nginx" .Release.Name ) | indent 8 }}
+      {{- end }}
+
+      volumes:
+      - name: nginx-certs
+        secret:
+          secretName: {{ .Release.Name }}-nginx
+      - name: nginx-conf
+        configMap:
+          name: {{ .Release.Name }}-nginx
+      - name: logs
+        emptyDir: {}
+
+      containers:
+      - name: nginx
+        image: "{{- .Values.nginx.imageName -}}:{{- .Values.nginx.imageTag -}}"
+        imagePullPolicy: {{ .Values.nginx.imagePullPolicy | quote }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.nginx.httpPort }}
+        - name: http-api
+          containerPort: {{ .Values.nginx.httpsPort }}
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: "/etc/nginx/nginx.conf"
+          subPath: "nginx.conf"
+        - name: nginx-certs
+          mountPath: "/etc/nginx/certs"
+        - name: logs
+          mountPath: "/logs"
