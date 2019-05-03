@@ -4,7 +4,7 @@ import json
 
 
 # Redis configuration
-HOST = "172.17.0.5"
+HOST = "10.35.252.107"
 # db 0: passenger, db 1: driver, db 2: geohash
 passenger_db = redis.Redis(host=HOST, port=6379, db=0)
 geocode_db = redis.Redis(host=HOST, port=6379, db=2)
@@ -70,11 +70,11 @@ def main(params):
             # update location info for passenger db
             passenger_db.rpush(info['id'], info['latitude'], info['longitude'], geocode)
             # add time expiration limitation
-            # passenger_db.expire(info['id'], 20)
+            # passenger_db.expire(info['id'], 10)
             # update passenger info for geocode db
             geocode_db.sadd(geocode, info['id'])
             # add time expiration limitation
-            # geocode_db.expire(geocode, 20)
+            # geocode_db.expire(geocode, 10)
             # make response
             statusCode = 200
             res = json.dumps({ "update": "success" })

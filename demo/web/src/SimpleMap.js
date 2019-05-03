@@ -3,9 +3,9 @@ import GoogleMapReact from 'google-map-react';
 import { googleMapKey } from './config/keys';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import isEmpty from './isEmpty';
-import PersonMarker from './PersonMarker';
-import DriverMarker from './DriverMarker';
+import isEmpty from './common/isEmpty';
+import PersonMarker from './common/PersonMarker';
+import DriverMarker from './common/DriverMarker';
 
 class SimpleMap extends Component {
 
@@ -21,8 +21,6 @@ class SimpleMap extends Component {
       lng: Number(nextProps.map.yourCoord.lng)
     }
 
-    console.log(nextProps.map.taxiCoord);
-
     this.setState({
       center: newCenter,
       zoom: nextProps.map.zoom,
@@ -33,8 +31,8 @@ class SimpleMap extends Component {
 
   state = {
     center: {
-      lat: 42.3401,
-      lng: 288.9089
+      lat: 42.346398,
+      lng: 288.903679
     },
     zoom: 14,
     layerTypes: ['TrafficLayer'],

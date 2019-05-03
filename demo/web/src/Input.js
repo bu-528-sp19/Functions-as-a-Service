@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import InputGroup from './InputGroup';
+import InputGroup from './common/InputGroup';
 import { connect } from 'react-redux';
 import { setPosition, setDefaultPosition } from './actions/mapActions'
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ class Input extends Component {
         lat: this.state.latitude,
         lng: this.state.longtitude
       },
-      zoom: 18,
+      zoom: 16,
       yourCoord: {
         lat: this.state.latitude,
         lng: this.state.longtitude
@@ -32,10 +32,13 @@ class Input extends Component {
       taxiCoord: [] 
     }
 
-    this.props.setPosition(data);
+    this.timer = setInterval(() => {
+        this.props.setPosition(data);
+    },2000);
   }
 
   resetHandler = () => {
+      clearInterval(this.timer);
       this.props.setDefaultPosition();
   }
 
@@ -51,7 +54,7 @@ class Input extends Component {
         <div className="container px-5 mt-5">
           <InputGroup
             name="latitude"
-            placeholder="42.3401"
+            placeholder="42.346398"
             value={ this.state.latitude }
             error={ errors.latitude }
             prepend="Latitude"
@@ -59,7 +62,7 @@ class Input extends Component {
           />
           <InputGroup
             name="longtitude"
-            placeholder="288.908"
+            placeholder="288.903679"
             value={ this.state.longtitude }
             error={ errors.longtitude }
             prepend="Longtitude"

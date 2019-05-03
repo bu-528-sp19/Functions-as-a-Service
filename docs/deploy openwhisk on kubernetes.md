@@ -122,5 +122,3 @@ Issue the command below to run the basic verification test suite included in the
 ```
 helm test owdev
 ```
-
-

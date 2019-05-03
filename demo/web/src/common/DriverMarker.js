@@ -6,10 +6,10 @@ const Wrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 18px;
-  height: 18px;
+  width: 9px;
+  height: 9px;
   background-color: #0000FF;
-  border: 2px solid #FFFFFF;
+  border: 1px solid #FFFFFF;
   border-radius: 100%;
   user-select: none;
   transform: translate(-50%, -50%);

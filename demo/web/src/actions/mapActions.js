@@ -4,7 +4,7 @@ import https from 'https';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-const apiAddress = "https://192.168.99.100:31001/api/v1/web/guest/default/searchDriver"
+const apiAddress = "https://openwhisk.faas.compulty.com:31001/api/v1/web/guest/default/searchDriver"
 
 // set the backend api address
 
@@ -18,8 +18,8 @@ const instance = axios.create({
 export const setDefaultPosition = () => dispatch => {
   const defaultPos = {
     center: {
-      lat: 42.3401,
-      lng: 288.9089
+      lat: 42.346398,
+      lng: 288.903679
     },
     zoom: 14,
     yourCoord: {},
@@ -38,7 +38,7 @@ export const setPosition = (data) => dispatch => {
   const query_data = {
     passenger_id: "P123S2",
     latitude: data.yourCoord.lat,
-    longitude: 360 - data.yourCoord.lng
+    longitude: data.yourCoord.lng - 360
   }
 
   instance
@@ -49,7 +49,7 @@ export const setPosition = (data) => dispatch => {
         const driverInfo = {
           id: driver.id,
           lat: Number(driver.latitude),
-          lng: 360 - Number(driver.longitude)
+          lng: 360 + Number(driver.longitude)
         };
         drivers.push(driverInfo);
       });
