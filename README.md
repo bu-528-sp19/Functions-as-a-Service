@@ -185,6 +185,12 @@ After installing all dependencies, you can use simple command to run the website
 npm run
 ```
 
+If you see the instrution below, you've successfully run the website on localhost:3000.
+
+<div align="center">
+<img src="./images/webrun.png" width="80%" height="80%">
+</div>
+
  ** **
 
 ## 5. Acceptance criteria
