@@ -47,6 +47,32 @@ OpenWhisk has integrated several components like Nginx, Kafka, controller and et
 
 ### Application - Frontend
 
+For frontend, we build a web to visualized our application.
+
+#### Framwork
+
+We use React and Redux to build the website.
+
+<div align="center">
+<img src="./images/react&redux.PNG" width="30%" height="80%">
+</div>
+
+#### Features
+
+Passengers can input their locations in the website and query surrounding drivers. Website will send post request to the backend and get locations from backend. Redux is used to store all these data. Then these locations will be rendered in the web page. Every two seconds, the web page will send request again and update locations.
+
+#### Goal
+
+The website is used to visualize our application and validate our backend functions. The change of data in our database will be displayed directly in our website.
+
+<div align="center">
+<img src="./images/map1.GIF" width="60%" height="80%">
+</div>
+
+<div align="center">
+<img src="./images/map2.GIF" width="60%" height="80%">
+</div>
+
 ### Application - Backend
 
 For the simulation part, the application would provid a web application for monitoring positions of drivers and passengers, and also save driver/passenger information on Redis.
@@ -105,6 +131,59 @@ Furthermore, we can see that the latency test program (shown with arrow in the f
 ## 4. Running Instructions
 
 We provide here the instructions to run the program.
+
+### Website
+
+The website is developed in React framework. To run the website in local machine, firstly, [npm](https://www.npmjs.com/get-npm) is a necessary dependency.
+
+#### Install Npm
+
+##### For Linux:
+
+```
+$ sudo apt-get update
+$ sudo apt-get install nodejs
+$ sudo apt-get install npm
+```
+
+##### For Mac:
+
+```
+$ brew insatll  node
+```
+
+##### For Windows:
+
+There is no automatic install tool for windows, you need to go to the [website](https://nodejs.org/en/download/) to download the package and install manually.
+
+##### Check whether you have node and npm installed
+
+To check if you have Node.js installed, run this command in your terminal:
+
+```
+$ node -v
+```
+
+To confirm that you have npm installed you can run this command in your terminal:
+```
+$ npm -v
+```
+
+#### Install package
+
+Go to the /demo/web directory, install the dependencies.
+
+```
+npm install
+```
+
+#### Run
+
+After installing all dependencies, you can use simple command to run the website and it will automatically open a webiste.
+
+```
+npm run
+```
 
  ** **
 
