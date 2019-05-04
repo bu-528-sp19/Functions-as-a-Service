@@ -91,10 +91,12 @@ While the above part measures the activation start time for both invoker -- whic
 From the result of the benchmark test, there are lots of details and properties of Openwhisk can be observed. Below is one running example we achieved when running two programs and one latency test.
 
 <div align="center">
-<img src="./images/demo5 fig1" width="80%" height="80%">
+<img src="./images/demo5fig1.png" width="80%" height="80%">
 </div>
 
 From the figure, we can see clearly of the start time and end time for the two programs, and this is one proof that Openwhisk is capable of distributing work on two invokers.
+
+Furthermore, we can see that the latency test program (shown with arrow in the figure) migrates between two invokers during the process. When invoker 1 has a program to run on, the latency test program is automatically switched to invoker 2, and when program 1 ends before program 2, the latency test program goes back to invoker 1.
 
 
 
