@@ -44,6 +44,16 @@ OpenWhisk has integrated several components like Nginx, Kafka, controller and et
 <img src="./images/OepnWhisk_structure.jpg" width="80%" height="80%">
 </div>
 
+### Application - System Architecture
+
+Below is an overview image of our whole application
+<div align="center">
+<img src="./images/System%20Architecture.png" width="80%" height="80%">
+</div>
+
+Firstly, we made a driver passenger application,the backend part receives requests from users and it will firstly synchronize the userr information, then for each driver, it can also search potential passengers in the nearby area. 
+
+In addition, For all of our users,  we also built a website to show their real-time locations, that is our frontend work. We also did some analysis work to evaluate the performance of not only OpenWhisk but also GCP.
 
 ### Application - Frontend
 
@@ -74,6 +84,29 @@ The website is used to visualize our application and validate our backend functi
 </div>
 
 ### Application - Backend
+
+Below is a flow chart showing how backend side manipulates each request, it looks a bit complex, but actually it just contains 2 main step: information updating and user searching. We will introduce both parts step by step.
+
+<div align="center">
+<img src="./images/Backend%20Implementation.jpg" width="60%" height="80%">
+</div>
+
+#### Prerequisite Knowledge: GeoHash
+One important technique we used at backend is called geohash, geohash is an alphanumeric string expressing a latitude longitude location, it converts 2D value to 1D value. A geohash identifies a rectangular area, the longer geohash length is, the smaller rectangular area it can represent. Geohash is efficient in searching, searching potential passengers for a driver is actually finding all passengers with same GeoHash code with that driver.
+
+<div align="center">
+<img src="./images/GeoHash.jpg" width="60%" height="50%">
+</div>
+
+#### Step 1: Information Synchronization
+In our application scenario, users will send their locations to server every 2 seconds, for each request, the backend part needs to do the updating work at our database. We defined 2 redis databases to do the synchronization work: database 0 for passenger and database 1 for driver. One important thing here is, in addition to updating the longitude latitude locatoin, we also calculate the corresponding geohash code and use database 2 to store the information.
+
+<div align="center">
+<img src="./images/databases.jpg" width="60%" height="30%">
+</div>
+
+#### Step 2: Searching
+Searching work is actually easy since we have done some previous work at step 1, here we just used user's geohash code as key, getting corresponding value set at database 2, iterating all of the id and return qualified.
 
 For the simulation part, the application would provid a web application for monitoring positions of drivers and passengers, and also save driver/passenger information on Redis.
 
@@ -191,7 +224,24 @@ If you see the instrution below, you've successfully run the website on localhos
 <img src="./images/webrun.png" width="50%" height="80%">
 </div>
 
- ** **
+ 
+### Simulation Program
+
+Comparing with website, the simulation program is easy to run, since it is a Maven Java program, we have included all the required dependencies at pom.xml. What you need to do is just:
+
+#### 1. Install IntelliJ
+
+Download IntelliJ from: https://www.jetbrains.com/idea/
+
+#### 2. Import Project
+
+Open IntelliJ -> File -> new -> Project from existing sources and import the program.
+As we mentioned before, you don't add any jar files, we have included it at maven part.
+
+#### 3. Run Project
+
+Run Main.java
+
 
 ## 5. Acceptance criteria
 
@@ -201,7 +251,6 @@ This FaaS application could:
 
 
  ** **
-
 ## 6.  Release Planning:
 
 Sprint 1 (Due to 2.14):  
