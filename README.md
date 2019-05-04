@@ -188,7 +188,7 @@ npm run
 If you see the instrution below, you've successfully run the website on localhost:3000.
 
 <div align="center">
-<img src="./images/webrun.png" width="80%" height="80%">
+<img src="./images/webrun.png" width="50%" height="80%">
 </div>
 
  ** **
