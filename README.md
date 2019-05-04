@@ -74,6 +74,29 @@ We first enable OpenWhisk Metrics Support, then used Prometheus to scrape the me
 * A monitoring program: For the benchmark part, Metrics of Openwhisk will be presented and analyzed. Especially when multiple programs are running and sending requests to Openwhisk.  
 
 
+#### An Example of Metrics
+
+Below is an example of the results of Monitoring metrics
+
+<div align="center">
+<img src="./images/out.gif" width="80%" height="80%">
+</div>
+
+The bottom part is the latency monitoring. The latency is measured by using a simple Java program sending request to Openwhisk, and measure the time between sending the request and receiving the response.  
+While the above part measures the activation start time for both invoker -- which indicates the work load on the two invokers.
+
+
+#### Analysis on Metrics
+
+From the result of the benchmark test, there are lots of details and properties of Openwhisk can be observed. Below is one running example we achieved when running two programs and one latency test.
+
+<div align="center">
+<img src="./images/demo5 fig1" width="80%" height="80%">
+</div>
+
+From the figure, we can see clearly of the start time and end time for the two programs, and this is one proof that Openwhisk is capable of distributing work on two invokers.
+
+
 
 ** **
 
