@@ -48,7 +48,7 @@ OpenWhisk has integrated several components like Nginx, Kafka, controller and et
 
 Below is an overview image of our whole application
 <div align="center">
-<img src="./images/System%20Architecture.png" width="80%" height="80%">
+<img src="./images/System%20Architecture.jpg" width="80%" height="80%">
 </div>
 
 Firstly, we made a driver passenger application,the backend part receives requests from users and it will firstly synchronize the userr information, then for each driver, it can also search potential passengers in the nearby area. 
