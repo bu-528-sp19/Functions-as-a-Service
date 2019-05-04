@@ -54,7 +54,7 @@ For frontend, we build a web to visualized our application.
 We use React and Redux to build the website.
 
 <div align="center">
-<img src="./images/react&redux.PNG" width="30%" height="80%">
+<img src="./images/react&redux.png" width="30%" height="80%">
 </div>
 
 #### Features
@@ -66,11 +66,11 @@ Passengers can input their locations in the website and query surrounding driver
 The website is used to visualize our application and validate our backend functions. The change of data in our database will be displayed directly in our website.
 
 <div align="center">
-<img src="./images/map1.GIF" width="60%" height="80%">
+<img src="./images/map1.gif" width="60%" height="80%">
 </div>
 
 <div align="center">
-<img src="./images/map2.GIF" width="60%" height="80%">
+<img src="./images/map2.gif" width="60%" height="80%">
 </div>
 
 ### Application - Backend
