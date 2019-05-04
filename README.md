@@ -22,45 +22,37 @@ System Researcher: <br>
 
 ## 3.   Scope and Features Of The Project:
 
-The project aims to implement FaaS for taxi driver passenger system data analysis, which includes a frontend webpage to gather passenger - driver information, and a presenting mechanism to add, update and present the locations of each driver and passenger. Last, a pairing process will be made to pair drivers and passenger by their requests. 
+### Project Outline
 
-The second part is the benchmark for Openwhisk. The project will monitor and analyze the metrics of Openwhisk. Including the activation count, cold start count for invokers/controllers, and the latency test result.
+This project has achieved three targets:
+
+1. Deploy Openwhisk on minikube locally and Kubernetes on GCP
+
+2. Build an application aimed for taxi driver passenger system
+
+3. Design a benchmarking metrics for Openwhisk
+
+### Openwhisk
+
+Openwhisk description
+
+### Application - Frontend
+
+### Application - Backend
 
 For the simulation part, the application would provid a web application for monitoring positions of drivers and passengers, and also save driver/passenger information on Redis.
+
+### Metrics
+
+The second part is the benchmark for Openwhisk. The project will monitor and analyze the metrics of Openwhisk. Including the activation count, cold start count for invokers/controllers, and the latency test result.
 
 For the benchmark part, Metrics of Openwhisk will be presented and analyzed. Especially when multiple programs are running and sending requests to Openwhisk.
 
 ** **
 
-## 4. Solution Concept
+## 4. Running Instructions
 
-In real world, incoming requests from taxis will change rapidly. The server needs to be elastic so it can take quick responses to those changes, which means the server should have the ability to scale up in a short time. FaaS is a suitable solution for this situation. Rather than in system level or application level, the service will be scalable in the function level, which costs less and is much easier to start up and destroy. There are some mature FaaS platform now, like AWS Lambda, Azure Functions, Google Cloud Function and IBM OpenWhisk. Here we choose to use IBM OpenWhisk platform.
-
-<div align="center">
-<img src="./images/FaaS_trigger_mechanism.jpg" width="80%" height="80%">
-</div>
-
-Apache OpenWhisk (Incubating) is an open source, distributed Serverless platform that executes functions (fx) in response to events at any scale. OpenWhisk manages the infrastructure, servers and scaling using Docker containers so you can focus on building amazing and efficient applications. 
-
-OpenWhisk has integrated several components like Nginx, Kafka, controller and etc to help us coordinate the function call and assign it to any available worker (e.g. Containers). Most of our app will be taken care by OpenWhisk platform.
-
-<div align="center">
-<img src="./images/OepnWhisk_structure.jpg" width="80%" height="80%">
-</div>
-
-Based on OpenWhisk platform, our application will take requests from different clients and take different actions pointing to every requests. Those data will be firstly stored into the database to update the instant location of every taxi, and then sent to the cloud to be stored for data analyse. We will also design a backend system to read location data from database and send these informations to our backend system and users.
-
-<div align="center">
-<img src="./images/System_architecture.png" width="80%" height="80%">
-</div>
-
-Kubernetes is a well-known container orchestration tool, which can be used to deploy container-native applications. Here we’ll deploy OpenWhisk over Kubernetes, which can leverage the capabilities provided by Kubernetes to better control and manage OpenWhisk containers, which can result in a stable OpenWhisk runtime. 
-
-Helm is a tool for managing Kubernetes charts, while charts are packages of pre-configured Kubernetes resources. By using Helm,we can write charts, which are in template format, to define a set of Kubernetes resources (each resource stands for a component of your application), and use Helm to deploy the charts over a Kubernetes cluster.
-
-<div align="center">
-<img src="./images/kubernetes_OpenWhisk_structure.png" width="80%" height="80%">
-</div>
+We provide here the instructions to run the program.
 
  ** **
 
