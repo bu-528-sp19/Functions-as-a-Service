@@ -36,6 +36,15 @@ This project has achieved three targets:
 
 Openwhisk description
 
+Apache OpenWhisk (Incubating) is an open source, distributed Serverless platform that executes functions (fx) in response to events at any scale. OpenWhisk manages the infrastructure, servers and scaling using Docker containers so you can focus on building amazing and efficient applications. 
+
+OpenWhisk has integrated several components like Nginx, Kafka, controller and etc to help us coordinate the function call and assign it to any available worker (e.g. Containers). Most of our app will be taken care by OpenWhisk platform.
+
+<div align="center">
+<img src="./images/OepnWhisk_structure.jpg" width="80%" height="80%">
+</div>
+
+
 ### Application - Frontend
 
 ### Application - Backend
@@ -44,9 +53,27 @@ For the simulation part, the application would provid a web application for moni
 
 ### Metrics
 
-The second part is the benchmark for Openwhisk. The project will monitor and analyze the metrics of Openwhisk. Including the activation count, cold start count for invokers/controllers, and the latency test result.
+The second part is the benchmark for Openwhisk. 
 
-For the benchmark part, Metrics of Openwhisk will be presented and analyzed. Especially when multiple programs are running and sending requests to Openwhisk.
+#### How to evaluate the application & OpenWhisk platform?  
+* Evaluate the avg. latency from a user perspective  
+* Evaluate the computational elasticity of OpenWhisk  
+
+#### What we’ve accomplished:
+* A metrics dashboard: The project will monitor and analyze the metrics of Openwhisk. Including the activation count, cold start count for invokers/controllers, and the latency test result.  
+
+This an overview of the metrics system.
+
+<div align="center">
+<img src="./images/metrics.PNG" width="80%" height="80%">
+</div>
+
+We first enable OpenWhisk Metrics Support, then used Prometheus to scrape the metrics data, at last, we used Grafana to present a metrics graph  
+
+
+* A monitoring program: For the benchmark part, Metrics of Openwhisk will be presented and analyzed. Especially when multiple programs are running and sending requests to Openwhisk.  
+
+
 
 ** **
 
